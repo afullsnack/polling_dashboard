@@ -6,7 +6,6 @@ import Col from "antd/lib/col";
 import Row from "antd/lib/row";
 import { getProviders, signIn, useSession } from "next-auth/client";
 import { useState } from "react";
-import { url } from "../lib/config";
 // import styles from "../styles/Home.module.css";
 // import withLayout from "components/globalLayout.js";
 
@@ -52,9 +51,7 @@ function Login({ providers }) {
             <div key={provider.name}>
               <Button
                 type="primary"
-                onClick={() =>
-                  signIn(provider.id, { callbackUrl: url + "/home" })
-                }
+                onClick={() => signIn(provider.id)}
                 style={{ marginBottom: 30 }}
                 icon={
                   provider.name == "Google" ? (

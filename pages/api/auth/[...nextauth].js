@@ -66,12 +66,15 @@ export default NextAuth({
     //   console.log(token, user);
     //   return token;
     // },
+    redirect({ url, baseUrl }) {
+      return url.startsWith(baseUrl) ? url : baseUrl;
+    },
     async signIn(user, account, profile) {
       console.log("User", user, profile, account);
       if (
         account.provider === "google" &&
-        profile.verified_email === true &&
-        profile.email.endsWith("@gmail.com")
+        profile.verified_email === true
+        // profile.email.endsWith("@gmail.com")
       ) {
         return true;
       } else {
