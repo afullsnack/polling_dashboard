@@ -1,7 +1,90 @@
-import withLayout from "../components/layout";
+// import Head from "next/head";
+import { FacebookOutlined, GoogleOutlined } from "@ant-design/icons";
+import Button from "antd/lib/button";
+import Card from "antd/lib/card";
+import Col from "antd/lib/col";
+import Row from "antd/lib/row";
+import { getProviders, signIn, useSession } from "next-auth/client";
+import { useState } from "react";
+import { url } from "../lib/config";
+// import styles from "../styles/Home.module.css";
+// import withLayout from "components/globalLayout.js";
 
-function Home() {
-  return <h1>New Dashboard, Real soon</h1>;
+function Login({ providers }) {
+  // connectDB();
+  const [hasAccount, setHasAccount] = useState(true);
+  const [session, loading] = useSession();
+  return (
+    <Row gutter={8} style={{ width: "100%", margin: 0, paddingTop: 150 }}>
+      <Col
+        xxs={{ span: 0 }}
+        xs={{ span: 0 }}
+        sm={{ span: 3 }}
+        lg={{ span: 6 }}
+      ></Col>
+      <Col
+        xxs={{ span: 24 }}
+        xs={{ span: 24 }}
+        sm={{ span: 18 }}
+        lg={{ span: 12 }}
+      >
+        <Card hoverable style={{ textAlign: "center" }}>
+          {/* {hasAccount && <LoginView />}
+          {!hasAccount && <CreateAccountView />}
+          {hasAccount && (
+            <span style={{ fontSize: 12, marginTop: 20 }}>
+              Don't have an account?
+            </span>
+          )}
+          {!hasAccount && (
+            <span style={{ fontSize: 12, marginTop: 20 }}>
+              Already have an account?
+            </span>
+          )}
+          <Button
+            type="link"
+            size="small"
+            onClick={() => setHasAccount(!hasAccount)}
+          >
+            {hasAccount ? "create account" : "Login"}
+          </Button> */}
+          {Object.values(providers).map((provider) => (
+            <div key={provider.name}>
+              <Button
+                type="primary"
+                onClick={() =>
+                  signIn(provider.id, { callbackUrl: url + "/home" })
+                }
+                style={{ marginBottom: 30 }}
+                icon={
+                  provider.name == "Google" ? (
+                    <GoogleOutlined />
+                  ) : (
+                    <FacebookOutlined />
+                  )
+                }
+              >
+                Sign in with {provider.name}
+              </Button>
+            </div>
+          ))}
+        </Card>
+      </Col>
+      <Col
+        xxs={{ span: 0 }}
+        xs={{ span: 0 }}
+        sm={{ span: 3 }}
+        lg={{ span: 6 }}
+      ></Col>
+    </Row>
+  );
 }
 
-export default withLayout(Home);
+export async function getServerSideProps(ctx) {
+  const providers = await getProviders();
+  return {
+    props: { providers },
+  };
+}
+
+export default Login;
