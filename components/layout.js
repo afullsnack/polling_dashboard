@@ -6,10 +6,11 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Select } from "antd";
-import { signOut } from "next-auth/client";
+import { signOut, useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { createElement, useState } from "react";
 import { lgas, polling_units } from "../lib/anambra_lgas";
+import { url } from "../lib/config";
 
 export default function withLayout(BaseComp) {
   return function App() {
@@ -28,6 +29,16 @@ export default function withLayout(BaseComp) {
     const toggle = () => {
       setCollapsed(!collapsed);
     };
+
+    const { data: session, status } = useSession();
+
+    if (status === "loading") {
+      return <p>Loading...</p>;
+    }
+
+    if (status === "unauthenticated") {
+      return <p>Access Denied</p>;
+    }
 
     return (
       <Layout style={{ minHeight: "100vh", overflowY: "hidden" }}>
@@ -53,7 +64,9 @@ export default function withLayout(BaseComp) {
             onSelect={({ item, key, selectedKeys }) => {
               // console.log(item, key, selectedKeys);
               setKey(key);
-              key == "logout" ? signOut() : router.push("/" + key);
+              key == "logout"
+                ? signOut({ callbackUrl: url })
+                : router.push("/" + key);
             }}
           >
             <Menu.Item key="home" icon={<DashboardOutlined />}>

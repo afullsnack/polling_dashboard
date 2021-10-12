@@ -54,20 +54,20 @@ export default NextAuth({
     jwt: true,
   },
   callbacks: {
-    async session(session, token) {
-      // Add property to session, like an access_token from a provider.
-      session.user.id = token.id;
-      console.log(token, "Token object");
-      return session;
-    },
-    async jwt(token, user, account, profile, isNewUser) {
-      token.name = user?.username;
-      token.id = user?._id;
-      console.log(token, user);
-      return token;
-    },
+    // async session(session, token) {
+    //   // Add property to session, like an access_token from a provider.
+    //   session.user.id = token.id;
+    //   console.log(token, "Token object");
+    //   return session;
+    // },
+    // async jwt(token, user, account, profile, isNewUser) {
+    //   token.name = user?.username;
+    //   token.id = user?._id;
+    //   console.log(token, user);
+    //   return token;
+    // },
     async signIn(user, account, profile) {
-      console.log("User", user);
+      console.log("User", user, profile, account);
       if (
         account.provider === "google" &&
         profile.verified_email === true &&

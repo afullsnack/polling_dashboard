@@ -1,5 +1,4 @@
 import { Card, Col, Row } from "antd";
-import { useSession } from "next-auth/client";
 import { Bar, Doughnut, Line, Pie } from "react-chartjs-2";
 import withLayout from "../components/layout";
 
@@ -21,15 +20,7 @@ function Home() {
       },
     ],
   };
-  const { data: session, status } = useSession();
 
-  if (status === "loading") {
-    return <p>Loading...</p>;
-  }
-
-  if (status === "unauthenticated") {
-    return <p>Access Denied</p>;
-  }
   return (
     <Row gutter={[16, 16]} style={{ width: "100%", margin: 0, padding: 0 }}>
       <Col xs={{ span: 24 }} lg={{ span: 12 }}>

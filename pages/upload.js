@@ -1,6 +1,5 @@
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
-import { useSession } from "next-auth/client";
 import withLayout from "../components/layout";
 
 const { Dragger } = Upload;
@@ -42,16 +41,6 @@ function UploadPage() {
       maxHeight: 360,
     },
   };
-
-  const { data: session, status } = useSession();
-
-  if (status === "loading") {
-    return <p>Loading...</p>;
-  }
-
-  if (status === "unauthenticated") {
-    return <p>Access Denied</p>;
-  }
 
   return (
     <Dragger {...props}>
