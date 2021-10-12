@@ -1,16 +1,17 @@
 // import Head from "next/head";
-import { FacebookOutlined, GoogleOutlined } from "@ant-design/icons";
 import Button from "antd/lib/button";
 import Card from "antd/lib/card";
 import Col from "antd/lib/col";
 import Row from "antd/lib/row";
-import { getProviders, signIn, useSession } from "next-auth/client";
-import { useState } from "react";
+import { getProviders, useSession } from "next-auth/client";
 // import styles from "../styles/Home.module.css";
 // import withLayout from "components/globalLayout.js";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 function Login({ providers }) {
   // connectDB();
+  const router = useRouter();
   const [hasAccount, setHasAccount] = useState(true);
   const [session, loading] = useSession();
   return (
@@ -47,7 +48,7 @@ function Login({ providers }) {
           >
             {hasAccount ? "create account" : "Login"}
           </Button> */}
-          {Object.values(providers).map((provider) => (
+          {/* {Object.values(providers).map((provider) => (
             <div key={provider.name}>
               <Button
                 type="primary"
@@ -64,7 +65,16 @@ function Login({ providers }) {
                 Sign in with {provider.name}
               </Button>
             </div>
-          ))}
+          ))} */}
+          <Button
+            type="primary"
+            size="large"
+            onClick={() => {
+              router.push("/home");
+            }}
+          >
+            Proceed to dashboard
+          </Button>
         </Card>
       </Col>
       <Col

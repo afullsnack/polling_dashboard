@@ -1,16 +1,15 @@
 import {
   DashboardOutlined,
+  LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UploadOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Select } from "antd";
-import { signOut, useSession } from "next-auth/client";
+import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { createElement, useState } from "react";
 import { lgas, polling_units } from "../lib/anambra_lgas";
-import { url } from "../lib/config";
 
 export default function withLayout(BaseComp) {
   return function App() {
@@ -22,6 +21,8 @@ export default function withLayout(BaseComp) {
     //   collapsed: false,
     // };
     const [collapsed, setCollapsed] = useState(false);
+    const [selectedLGA, setSelectedLGA] = useState(lgas[0]);
+    const [pollingUnit, setPollingUnit] = useState(polling_units[0]);
     const [key, setKey] = useState(
       router.asPath.includes("upload") ? "upload" : "home"
     );
@@ -65,8 +66,9 @@ export default function withLayout(BaseComp) {
               // console.log(item, key, selectedKeys);
               setKey(key);
               key == "logout"
-                ? signOut({ callbackUrl: url })
-                : router.push("/" + key);
+                ? router.replace("/")
+                : // signOut({ callbackUrl: url })
+                  router.push("/" + key);
             }}
           >
             <Menu.Item key="home" icon={<DashboardOutlined />}>
@@ -75,14 +77,22 @@ export default function withLayout(BaseComp) {
             <Menu.Item key="upload" icon={<UploadOutlined />}>
               Upload
             </Menu.Item>
-            <Menu.Item key="logout" icon={<UserOutlined />}>
+            <Menu.Item
+              key="logout"
+              icon={<LogoutOutlined />}
+              style={{ color: "red" }}
+            >
               Logout
             </Menu.Item>
           </Menu>
         </Sider>
         <Layout
           className="site-layout"
-          style={{ height: "100%", overflowY: "scroll", marginLeft: 200 }}
+          style={{
+            height: "100%",
+            overflowY: "scroll",
+            marginLeft: collapsed ? 80 : 200,
+          }}
         >
           <Header
             className="site-layout-background"
@@ -110,7 +120,7 @@ export default function withLayout(BaseComp) {
             >
               <Select
                 onChange={(value, option) => {
-                  console.log(value, option);
+                  setSelectedLGA(value);
                 }}
                 placeholder="CHOOSE LGA"
                 style={{
@@ -119,12 +129,14 @@ export default function withLayout(BaseComp) {
                 }}
               >
                 {lgas.map((val, i) => (
-                  <Option value={val}>{val.toUpperCase()}</Option>
+                  <Option key={i.toString()} value={val}>
+                    {val.toUpperCase()}
+                  </Option>
                 ))}
               </Select>
               <Select
                 onChange={(value, option) => {
-                  console.log(value, option);
+                  setPollingUnit(value);
                 }}
                 placeholder="CHOOSE POLLING UNIT"
                 style={{
@@ -132,7 +144,9 @@ export default function withLayout(BaseComp) {
                 }}
               >
                 {polling_units.map((val, i) => (
-                  <Option value={val}>{val.toUpperCase()}</Option>
+                  <Option key={i.toString()} value={val}>
+                    {val.toUpperCase()}
+                  </Option>
                 ))}
               </Select>
             </div>
@@ -146,7 +160,7 @@ export default function withLayout(BaseComp) {
               overflowY: "initial",
             }}
           >
-            <BaseComp />
+            <BaseComp selectedLGA={selectedLGA} pollingUnit={pollingUnit} />
           </Content>
         </Layout>
 
@@ -175,6 +189,10 @@ export default function withLayout(BaseComp) {
             height: 32px;
             margin: 16px;
             background: rgba(255, 255, 255, 0.3);
+          }
+
+          .site-layout {
+            transition: margin-left 0.1s linear 0s;
           }
 
           .site-layout .site-layout-background {

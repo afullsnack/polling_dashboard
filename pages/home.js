@@ -2,7 +2,7 @@ import { Card, Col, Row } from "antd";
 import { Bar, Doughnut, Line, Pie } from "react-chartjs-2";
 import withLayout from "../components/layout";
 
-function Home() {
+function Home({ selectedLGA, pollingUnit }) {
   const data = {
     labels: ["Test label", "Test label 2", "And so on"],
     datasets: [
@@ -24,22 +24,22 @@ function Home() {
   return (
     <Row gutter={[16, 16]} style={{ width: "100%", margin: 0, padding: 0 }}>
       <Col xs={{ span: 24 }} lg={{ span: 12 }}>
-        <Card hoverable title="Standings">
+        <Card hoverable title={`${pollingUnit} Standings`}>
           <Doughnut data={data} />
         </Card>
       </Col>
       <Col xs={{ span: 24 }} lg={{ span: 12 }}>
-        <Card hoverable title="Polling rounds">
+        <Card hoverable title={`${pollingUnit} Polling rounds`}>
           <Pie data={data} />
         </Card>
       </Col>
       <Col xs={{ span: 24 }} lg={{ span: 12 }}>
-        <Card hoverable title="Unit counts">
+        <Card hoverable title={`${pollingUnit} Unit counts`}>
           <Line data={data} />
         </Card>
       </Col>
       <Col xs={{ span: 24 }} lg={{ span: 12 }}>
-        <Card hoverable title="Voters counts">
+        <Card hoverable title={`${pollingUnit} Voters counts`}>
           <Bar data={data} />
         </Card>
       </Col>
