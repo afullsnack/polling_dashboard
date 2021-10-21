@@ -1,6 +1,7 @@
 import { InboxOutlined } from "@ant-design/icons";
-import { message, Upload } from "antd";
+import { Button, message, Upload } from "antd";
 import withLayout from "../components/layout";
+import { parseFile } from "../lib/parseFile";
 
 const { Dragger } = Upload;
 
@@ -16,6 +17,7 @@ function UploadPage() {
       }
       if (status === "done") {
         message.success(`${info.file.name} file uploaded successfully.`);
+        console.log(info.file.path);
       } else if (status === "error") {
         message.error(`${info.file.name} file upload failed.`);
       }
@@ -43,18 +45,27 @@ function UploadPage() {
   };
 
   return (
-    <Dragger {...props}>
-      <p className="ant-upload-drag-icon">
-        <InboxOutlined />
-      </p>
-      <p className="ant-upload-text">
-        Click or drag file to this area to upload
-      </p>
-      <p className="ant-upload-hint">
-        Support for a single or bulk upload. Strictly prohibit from uploading
-        company data or other band files
-      </p>
-    </Dragger>
+    <>
+      <Dragger {...props}>
+        <p className="ant-upload-drag-icon">
+          <InboxOutlined />
+        </p>
+        <p className="ant-upload-text">
+          Click or drag file to this area to upload
+        </p>
+        <p className="ant-upload-hint">
+          Support for a single or bulk upload. Strictly prohibit from uploading
+          company data or other band files
+        </p>
+      </Dragger>
+      <Button
+        onClick={() => {
+          parseFile();
+        }}
+      >
+        PARSE FILE
+      </Button>
+    </>
   );
 }
 
