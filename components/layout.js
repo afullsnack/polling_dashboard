@@ -118,7 +118,7 @@ export default function withLayout(BaseComp) {
                 zIndex: 2,
               }}
             >
-              <Select
+              {/* <Select
                 onChange={(value, option) => {
                   setSelectedLGA(value);
                 }}
@@ -148,7 +148,7 @@ export default function withLayout(BaseComp) {
                     {val.toUpperCase()}
                   </Option>
                 ))}
-              </Select>
+              </Select> */}
             </div>
           </Header>
           <Content

@@ -1,7 +1,7 @@
 import { InboxOutlined } from "@ant-design/icons";
 import { Button, message, Upload } from "antd";
 import withLayout from "../components/layout";
-import { parseFile } from "../lib/parseFile";
+// import { parseFile } from "../lib/parseFile";
 
 const { Dragger } = Upload;
 
