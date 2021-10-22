@@ -12,7 +12,7 @@ import { createElement, useState } from "react";
 import { lgas, polling_units } from "../lib/anambra_lgas";
 
 export default function withLayout(BaseComp) {
-  return function App() {
+  return function App(props) {
     const { Header, Sider, Content } = Layout;
     const router = useRouter();
     const Option = Select.Option;
@@ -160,7 +160,11 @@ export default function withLayout(BaseComp) {
               overflowY: "initial",
             }}
           >
-            <BaseComp selectedLGA={selectedLGA} pollingUnit={pollingUnit} />
+            <BaseComp
+              selectedLGA={selectedLGA}
+              pollingUnit={pollingUnit}
+              {...props}
+            />
           </Content>
         </Layout>
 

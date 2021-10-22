@@ -21,8 +21,9 @@ function Users({ users }) {
   ];
 
   // const userData = JSON.parse(users);
+  console.log("Client users", users);
 
-  const data = (typeof users === "object" ? [users] : users) || [];
+  const data = users || [];
 
   return (
     <Row gutter={[16, 16]} style={{ width: "100%", margin: 0, padding: 0 }}>
@@ -37,16 +38,23 @@ function Users({ users }) {
 }
 
 export async function getServerSideProps(ctx) {
-  var users = fetch(`${url}/api/user`, { method: "GET" })
+  const { data, error, message } = await fetch(`${url}/api/user`, {
+    method: "GET",
+  })
     .then((res) => res.json())
     .catch((err) => console.log(err.message || err.toString()));
-  users = JSON.stringify(users);
-  console.log("users", users);
+
+  if (error) {
+    return {
+      props: {},
+    };
+  }
+  // var users = JSON.stringify(data);
+  console.log("users", data, message, error);
   return {
     props: {
-      users,
+      users: data,
     },
   };
 }
-
 export default withLayout(Users);

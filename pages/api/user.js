@@ -25,15 +25,12 @@ export default handler
   })
   .get(async (req, res) => {
     // get all the users for the dashboard
-    await User.find({}, (err, found) => {
-      if (err) {
-        throw new Error(err.message || err.toString());
-      }
-      console.log("Users", found);
+    User.find({}, (err, found) => {
+      console.log("Users", err || found);
       res.json({
-        error: false,
-        message: "Found users",
-        data: found,
+        error: found ? false : true,
+        message: found ? "Found users" : "No users found, something went wrong",
+        data: found || err,
       });
     });
   });
