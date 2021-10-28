@@ -1,0 +1,1 @@
+GET http://localhost:3000/api/votes?lga=AGUATA&ward=ACHINA I&unit=ST. CHARLE'S SCHOOL HTTP/1.1

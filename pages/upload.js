@@ -2,6 +2,7 @@ import { InboxOutlined } from "@ant-design/icons";
 import { Button, message, Upload } from "antd";
 import withLayout from "../components/layout";
 // import { parseFile } from "../lib/parseFile";
+import { url } from "../lib/config";
 
 const { Dragger } = Upload;
 
@@ -9,7 +10,7 @@ function UploadPage() {
   const props = {
     name: "file",
     multiple: true,
-    action: "http://localhost:3000/api/upload",
+    action: `${url}/api/upload`,
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {
