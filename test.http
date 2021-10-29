@@ -22,14 +22,16 @@ Content-Type: application/json
   "ward": "AGULERI",
   "unit": "UGWUNADEGBE PRY. SCHOOL",
   "vote_count": {
-    "PDP": 125,
-    "YPP": 21,
-    "APC": 72,
-    "APGA": 115,
-    "ZLP": 3,
-    "LP": 13
+    "PDP": 2,
+    "YPP": 3,
+    "APC": 4,
+    "APGA": 5,
+    "ZLP": 6,
+    "LP": 7
   }
 }
 
 ### Init DB
 POST http://localhost:3000/api/votes
+### Init DB LIVE
+POST https://polling-dashboard-beta.vercel.app/api/votes

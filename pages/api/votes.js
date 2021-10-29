@@ -101,7 +101,7 @@ export default handler
           });
     }
   })
-  .post((req, res) => {
-    initDB();
+  .post(async (req, res) => {
+    await initDB();
     res.status(200).send("All went well");
   });
