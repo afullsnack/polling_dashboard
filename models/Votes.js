@@ -7,29 +7,15 @@ const { Schema } = mongoose;
 connectDB();
 const voteSchema = new Schema(
   {
-    LGA: { type: String, default: "", required: true, unique: true },
-    TOTAL_V_COUNT: {
-      PDP: { type: Number, default: 0, required: true },
-      YPP: { type: Number, default: 0, required: true },
-      APC: { type: Number, default: 0, required: true },
-      APGA: { type: Number, default: 0, required: true },
-      ZLP: { type: Number, default: 0, required: true },
-      LP: { type: Number, default: 0, required: true },
-    },
+    LGA: { type: String, default: "", required: true },
     WARDS: [
       {
-        WARD: { type: String, default: "", required: true, unique: true },
-        TOTAL_V_COUNT: {
-          PDP: { type: Number, default: 0, required: true },
-          YPP: { type: Number, default: 0, required: true },
-          APC: { type: Number, default: 0, required: true },
-          APGA: { type: Number, default: 0, required: true },
-          ZLP: { type: Number, default: 0, required: true },
-          LP: { type: Number, default: 0, required: true },
-        },
+        _id: false,
+        WARD: { type: String, default: "", required: true },
         PUs: [
           {
-            UNIT: { type: String, default: "", required: true, unique: true },
+            _id: false,
+            UNIT: { type: String, default: "", required: true },
             TOTAL_V_COUNT: {
               PDP: { type: Number, default: 0, required: true },
               YPP: { type: Number, default: 0, required: true },
@@ -49,4 +35,4 @@ const voteSchema = new Schema(
 toJSONPlugin(voteSchema);
 updatedOnHook(voteSchema);
 
-export default mongoose.model("Vote", voteSchema);
+export default mongoose.models.Vote || mongoose.model("Vote", voteSchema);

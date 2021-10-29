@@ -1,15 +1,17 @@
 import {
+  ContainerOutlined,
   DashboardOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UploadOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Select } from "antd";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { createElement, useState } from "react";
-import { lgas, polling_units } from "../lib/anambra_lgas";
+import { SWRConfig } from "swr";
 
 export default function withLayout(BaseComp) {
   return function App(props) {
@@ -21,11 +23,8 @@ export default function withLayout(BaseComp) {
     //   collapsed: false,
     // };
     const [collapsed, setCollapsed] = useState(false);
-    const [selectedLGA, setSelectedLGA] = useState(lgas[0]);
-    const [pollingUnit, setPollingUnit] = useState(polling_units[0]);
-    const [key, setKey] = useState(
-      router.asPath.includes("upload") ? "upload" : "home"
-    );
+    const [key, setKey] = useState(router.asPath.replace("/", ""));
+    console.log(router.asPath, key);
 
     const toggle = () => {
       setCollapsed(!collapsed);
@@ -73,6 +72,12 @@ export default function withLayout(BaseComp) {
           >
             <Menu.Item key="home" icon={<DashboardOutlined />}>
               Home
+            </Menu.Item>
+            <Menu.Item key="votes" icon={<ContainerOutlined />}>
+              Votes
+            </Menu.Item>
+            <Menu.Item key="users" icon={<UserOutlined />}>
+              Users
             </Menu.Item>
             <Menu.Item key="upload" icon={<UploadOutlined />}>
               Upload
@@ -154,17 +159,25 @@ export default function withLayout(BaseComp) {
           <Content
             className="site-layout-background"
             style={{
-              margin: "88px 16px 24px 16px",
+              margin: "40px 16px 24px 16px",
               padding: 24,
               minHeight: 280,
               overflowY: "initial",
             }}
           >
-            <BaseComp
-              selectedLGA={selectedLGA}
-              pollingUnit={pollingUnit}
-              {...props}
-            />
+            <SWRConfig
+              value={{
+                refreshInterval: 3000,
+                fetcher: (resource, init) =>
+                  fetch(resource, init).then((res) => res.json()),
+              }}
+            >
+              <BaseComp
+                // selectedLGA={selectedLGA}
+                // pollingUnit={pollingUnit}
+                {...props}
+              />
+            </SWRConfig>
           </Content>
         </Layout>
 

@@ -18,7 +18,7 @@ function Home() {
         </Link>
       </Col>
       <Col xs={{ span: 24 }} md={{ span: 12 }}>
-        <Link href="/data_vis">
+        <Link href="/votes">
           <Card
             hoverable
             title="Polling data"

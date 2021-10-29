@@ -1,1 +1,35 @@
 GET http://localhost:3000/api/votes?lga=AGUATA&ward=ACHINA I&unit=ST. CHARLE'S SCHOOL HTTP/1.1
+###
+GET http://localhost:3000/api/votes HTTP/1.1
+###
+GET http://localhost:3000/api/votes?place=AGUATA&type=LGA HTTP/1.1
+###
+GET http://localhost:3000/api/votes?place=ANAMBRA EAST&type=LGA HTTP/1.1
+###
+GET http://localhost:3000/api/votes?place=AGULERI&type=WARD HTTP/1.1
+###
+GET http://localhost:3000/api/votes?place=AGULERI II&type=WARD HTTP/1.1
+###
+GET http://localhost:3000/api/votes?place=UGWUNADEGBE PRY. SCHOOL&type=UNIT HTTP/1.1
+###
+GET http://localhost:3000/api/votes?place=ENUGU NDIDA&type=UNIT HTTP/1.1
+###
+PUT http://localhost:3000/api/votes HTTP/1.1
+Content-Type: application/json
+
+{
+  "lga": "ANAMBRA EAST",
+  "ward": "AGULERI",
+  "unit": "UGWUNADEGBE PRY. SCHOOL",
+  "vote_count": {
+    "PDP": 125,
+    "YPP": 21,
+    "APC": 72,
+    "APGA": 115,
+    "ZLP": 3,
+    "LP": 13
+  }
+}
+
+### Init DB
+POST http://localhost:3000/api/votes

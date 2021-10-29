@@ -3,14 +3,14 @@ import Votes from "../../models/Votes";
 
 export default handler
   .put(async (req, res) => {
-    //Update the unit vote count with data received from client
     try {
       const { lga, ward, unit, vote_count } = req.body;
 
+      //Update the unit vote count with data received from client
       const votes = await Votes.updateOne(
         {
-          LGA: lga,
-          "WARDS.WARD": ward,
+          // LGA: lga,
+          // "WARDS.WARD": ward,
           "WARDS.PUs.UNIT": unit,
         },
         {
@@ -51,17 +51,29 @@ export default handler
   })
   .get(async (req, res) => {
     // get all the users for the dashboard
-    // initDB();
-    console.log("Params or Query Data", req.query, req.params);
-    const { lga, ward, unit } = req.query;
 
-    if (lga || ward || unit) {
-      console.log("Query", lga, ward, unit);
-      const votes = await Votes.findOne({
-        LGA: lga,
-        "WARDS.WARD": ward,
-        "WARDS.PUs.UNIT": unit,
-      });
+    console.log("Params or Query Data", req.query, req.params);
+    const { place, type } = req.query;
+
+    if (place || type) {
+      console.log("Query", place, type);
+      const votes = await Votes.findOne(
+        type == "LGA"
+          ? {
+              LGA: place || null,
+              // "WARDS.PUs.TOTAL_V_COUNT.PDP": { $gte: 0 },
+            }
+          : type == "WARD"
+          ? {
+              "WARDS.WARD": place || null,
+              // "WARDS.PUs.TOTAL_V_COUNT.PDP": { $gte: 0 },
+            }
+          : {
+              "WARDS.PUs.UNIT": place || null,
+              // "WARDS.PUs.TOTAL_V_COUNT.PDP": { $gte: 0 },
+            }
+      );
+      console.log("Return data", votes);
       votes
         ? res.status(200).json({
             error: false,
@@ -74,7 +86,7 @@ export default handler
             data: null,
           });
     } else {
-      const votes = await Votes.find({});
+      const votes = await Votes.find({}, ["LGA", "WARDS"]);
       votes
         ? res.status(200).json({
             error: false,
@@ -87,10 +99,8 @@ export default handler
             data: null,
           });
     }
-
-    // res.status(200).json({
-    //   error: false,
-    //   message: "DB Populated successfully",
-    //   data: null,
-    // });
   });
+// .post((req, res) => {
+//   initDB();
+//   res.status(200).send("All went well");
+// });
