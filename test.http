@@ -33,5 +33,25 @@ Content-Type: application/json
 
 ### Init DB
 POST http://localhost:3000/api/votes
+
+
 ### Init DB LIVE
 POST https://polling-dashboard-beta.vercel.app/api/votes
+
+### Live put requests
+PUT https://polling-dashboard-beta.vercel.app/api/votes HTTP/1.1
+Content-Type: application/json
+
+{
+  "lga": "AGUATA",
+  "ward": "ACHINA I",
+  "unit": "ST. CHARLE'S SCHOOL",
+  "vote_count": {
+    "PDP": 2,
+    "YPP": 3,
+    "APC": 4,
+    "APGA": 5,
+    "ZLP": 6,
+    "LP": 7
+  }
+}
