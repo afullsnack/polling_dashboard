@@ -7,6 +7,7 @@ export default handler
       const { report, unit } = req.body;
 
       //Update the unit vote count with data received from client
+      console.log(report, unit);
       const votes = await Votes.updateOne(
         {
           "WARDS.PUs.UNIT": unit,
@@ -32,7 +33,7 @@ export default handler
         });
         return;
       }
-      res.status(401).json({
+      res.status(200).json({
         error: true,
         message: "Something went wrong trying to update incident report",
         data: null,
@@ -60,7 +61,7 @@ export default handler
             message: "Report found",
             data: doc,
           })
-        : res.status(401).json({
+        : res.status(200).json({
             error: true,
             message: "Report not found",
             data: null,

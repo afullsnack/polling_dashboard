@@ -31,7 +31,7 @@ export default handler.put(async (req, res) => {
       });
       return;
     }
-    res.status(401).json({
+    res.status(200).json({
       error: true,
       message: "Something went wrong trying to save result report",
       data: null,
