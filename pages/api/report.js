@@ -1,4 +1,5 @@
 import handler from "../../lib/handler";
+import initDB from "../../lib/initDB";
 import Votes from "../../models/Votes";
 
 export default handler
@@ -74,4 +75,7 @@ export default handler
         data: null,
       });
     }
+  })
+  .post(async (req, res) => {
+    initDB();
   });
