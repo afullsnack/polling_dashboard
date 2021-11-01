@@ -11,7 +11,7 @@ export default handler.put(async (req, res) => {
         "WARDS.PUs.UNIT": unit,
       },
       {
-        $push: {
+        $set: {
           "WARDS.$.PUs.$[i].RESULT_IMG": { url: img, lat: lat, lng: lng },
         },
       },

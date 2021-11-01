@@ -13,7 +13,7 @@ export default handler
           "WARDS.PUs.UNIT": unit,
         },
         {
-          $push: {
+          $set: {
             "WARDS.$.PUs.$[i].REPORT": report,
           },
         },
@@ -25,6 +25,7 @@ export default handler
           ],
         }
       );
+      console.log(votes);
       if (votes.acknowledged && votes.modifiedCount >= 1) {
         res.status(200).json({
           error: false,
