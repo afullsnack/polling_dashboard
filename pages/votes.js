@@ -9,7 +9,7 @@ import { url } from "../lib/config";
 const { TabPane } = Tabs;
 
 function Votes() {
-  const { error, data } = useSWR(`${url}/api/votes`, { mode: "no-cors" });
+  const { error, data } = useSWR(`${url}/api/votes`);
   const [resultSheets, setResultSheets] = useState([]);
   const [incidentReports, setIncidentReports] = useState([]);
 
