@@ -68,22 +68,22 @@ function Votes() {
           var unitsTotal = 0;
           unitsTotal = vData["data"][i]["WARDS"][j]["PUs"].reduce(
             //SUMMING OF PU TOTALS
-            (final, current, idx) => {
+            (final, current, idx, array) => {
               // console.log(val, current, idx);
               // if(current["TOTAL_V_COUNT"][val] <= 0){ continue;}
               final += current["TOTAL_V_COUNT"][val];
-              current["REPORT"] !== ""
+              array[idx]["REPORT"] !== ""
                 ? incidentReport.push({
-                    report: current["REPORT"],
-                    place: current["UNIT"],
+                    report: array[idx]["REPORT"],
+                    place: array[idx]["UNIT"],
                   })
                 : null;
-              current["RESULT_IMG"]
+              array[idx]["RESULT_IMG"]
                 ? resultSheet.push({
-                    place: current["UNIT"],
-                    url: current["RESULT_IMG"]["url"],
-                    lat: current["RESULT_IMG"]["lat"],
-                    lng: current["RESULT_IMG"]["lng"],
+                    place: array[idx]["UNIT"],
+                    url: array[idx]["RESULT_IMG"]["url"],
+                    lat: array[idx]["RESULT_IMG"]["lat"],
+                    lng: array[idx]["RESULT_IMG"]["lng"],
                   })
                 : null;
               return final;
