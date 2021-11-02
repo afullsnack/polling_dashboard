@@ -78,8 +78,7 @@ function Votes() {
                     place: current["UNIT"],
                   })
                 : console.log("No report for unit", current["UNIT"]);
-              current["RESULT_IMG"] !== null ||
-              current["RESULT_IMG"] !== undefined
+              current["RESULT_IMG"]
                 ? resultSheet.push({
                     place: current["UNIT"],
                     url: current["RESULT_IMG"]["url"],
