@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Card, Col, Row, Tabs } from "antd";
 import "isomorphic-fetch";
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
@@ -6,8 +6,12 @@ import useSWR from "swr";
 import withLayout from "../components/layout";
 import { url } from "../lib/config";
 
+const { TabPane } = Tabs;
+
 function Votes() {
-  const { error, data } = useSWR(`${url}/api/votes`);
+  const { error, data } = useSWR(`${url}/api/votes`, { mode: "no-cors" });
+  const [resultSheets, setResultSheets] = useState([]);
+  const [incidentReports, setIncidentReports] = useState([]);
 
   const [totalVotes, setTotalVotes] = useState([0, 0, 0, 0, 0, 0]);
   // const [newChartData, setNewChartData] = useState(chartData);
@@ -49,6 +53,8 @@ function Votes() {
 
   const setUpData = (vData) => {
     const totalArray = [];
+    const resultSheet = [];
+    const incidentReport = [];
     vData["data"];
     parties.forEach((val, idxx) => {
       var partyTotal = 0;
@@ -66,6 +72,21 @@ function Votes() {
               // console.log(val, current, idx);
               // if(current["TOTAL_V_COUNT"][val] <= 0){ continue;}
               final += current["TOTAL_V_COUNT"][val];
+              current["REPORT"] !== ""
+                ? incidentReport.push({
+                    report: current["REPORT"],
+                    place: current["UNIT"],
+                  })
+                : console.log("No report for unit", current["UNIT"]);
+              current["RESULT_IMG"] !== null ||
+              current["RESULT_IMG"] !== undefined
+                ? resultSheet.push({
+                    place: current["UNIT"],
+                    url: current["RESULT_IMG"]["url"],
+                    lat: current["RESULT_IMG"]["lat"],
+                    lng: current["RESULT_IMG"]["lng"],
+                  })
+                : console.log("No result sheet for unit", current["UNIT"]);
               return final;
             },
             0
@@ -80,6 +101,8 @@ function Votes() {
       totalArray.push(partyTotal);
     });
     setTotalVotes(totalArray);
+    setResultSheets(resultSheet);
+    setIncidentReports(incidentReport);
   };
 
   useEffect(async () => {
@@ -100,8 +123,38 @@ function Votes() {
         </Button> */}
       </Col>
       <Col xs={{ span: 24 }} lg={{ span: 24 }}>
-        <Bar data={chartData} options={options} />
+        <Tabs defaultActiveKey="1" onChange={(key) => console.log(key)}>
+          <TabPane tab="Chart" key="1">
+            <Bar data={chartData} options={options} />
+          </TabPane>
+          <TabPane tab="Result Sheet" key="2">
+            <Row
+              gutter={[8, 8]}
+              style={{ width: "100%", margin: 0, padding: 0 }}
+            >
+              {resultSheets.map((sheet, i) => (
+                <Col xs={{ span: 24 }} lg={{ span: 6 }}>
+                  <Card cover={<img src={sheet?.url} height="inherit" />}>
+                    <h4>{sheet?.place}</h4>
+                    <span>Latitude: {sheet?.lat}</span>
+                    <span>Longitude: {sheet?.lng}</span>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          </TabPane>
+        </Tabs>
         {/* {!data ? "Loading..." : setUpData(data) || error} */}
+      </Col>
+      <Col xs={{ span: 24 }} lg={{ span: 24 }}>
+        <Card title="Incident Reports">
+          {incidentReports.map((report, i) => (
+            <Card.Grid style={{ width: "33%", textAlign: "left" }}>
+              <h4>{report?.place}</h4>
+              <span>{report?.report}</span>
+            </Card.Grid>
+          ))}
+        </Card>
       </Col>
     </Row>
   );
