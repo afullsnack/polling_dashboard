@@ -77,7 +77,7 @@ function Votes() {
                     report: current["REPORT"],
                     place: current["UNIT"],
                   })
-                : console.log("No report for unit", current["UNIT"]);
+                : null;
               current["RESULT_IMG"]
                 ? resultSheet.push({
                     place: current["UNIT"],
@@ -85,7 +85,7 @@ function Votes() {
                     lat: current["RESULT_IMG"]["lat"],
                     lng: current["RESULT_IMG"]["lng"],
                   })
-                : console.log("No result sheet for unit", current["UNIT"]);
+                : null;
               return final;
             },
             0
