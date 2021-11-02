@@ -1,4 +1,5 @@
 import { Card, Col, Row, Tabs } from "antd";
+import Base64 from "crypto-js/enc-base64";
 import "isomorphic-fetch";
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
@@ -133,7 +134,11 @@ function Votes() {
             >
               {resultSheets.map((sheet, i) => (
                 <Col xs={{ span: 24 }} lg={{ span: 6 }}>
-                  <Card cover={<img src={sheet?.url} height="inherit" />}>
+                  <Card
+                    cover={
+                      <img src={Base64.parse(sheet?.url)} height="inherit" />
+                    }
+                  >
                     <h4>{sheet?.place}</h4>
                     <span>Latitude: {sheet?.lat}</span>
                     <span>Longitude: {sheet?.lng}</span>
