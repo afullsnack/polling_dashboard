@@ -131,25 +131,28 @@ function Votes() {
               gutter={[8, 8]}
               style={{ width: "100%", margin: 0, padding: 0 }}
             >
-              {resultSheets.map((sheet, i) => {
-                // var buff = new Buffer.from(sheet.url, 'base64');
-                return (
-                  <Col xs={{ span: 24 }} lg={{ span: 6 }}>
-                    <Card
-                      cover={
-                        <img
-                          src={"data:image/png;base64," + sheet.url}
-                          height="inherit"
-                        />
-                      }
-                    >
-                      <h4>{sheet?.place}</h4>
-                      <span>Latitude: {sheet?.lat}</span>
-                      <span>Longitude: {sheet?.lng}</span>
-                    </Card>
-                  </Col>
-                );
-              })}
+              {resultSheets
+                .splice(0, resultSheets.length, ...new Set(resultSheets))
+                .map((sheet, i) => {
+                  // var buff = new Buffer.from(sheet.url, 'base64');
+                  return (
+                    <Col xs={{ span: 24 }} lg={{ span: 6 }}>
+                      <Card
+                        cover={
+                          <img
+                            src={"data:image/png;base64," + sheet.url}
+                            height="inherit"
+                          />
+                        }
+                      >
+                        <h4>{sheet?.place}</h4>
+                        <span>Latitude: {sheet?.lat}</span>
+                        <br />
+                        <span>Longitude: {sheet?.lng}</span>
+                      </Card>
+                    </Col>
+                  );
+                })}
             </Row>
           </TabPane>
         </Tabs>
@@ -157,12 +160,14 @@ function Votes() {
       </Col>
       <Col xs={{ span: 24 }} lg={{ span: 24 }}>
         <Card title="Incident Reports">
-          {incidentReports.map((report, i) => (
-            <Card.Grid style={{ width: "33%", textAlign: "left" }}>
-              <h4>{report?.place}</h4>
-              <span>{report?.report}</span>
-            </Card.Grid>
-          ))}
+          {incidentReports
+            .splice(0, incidentReports.length, ...new Set(incidentReports))
+            .map((report, i) => (
+              <Card.Grid style={{ width: "33%", textAlign: "left" }}>
+                <h4>{report?.place}</h4>
+                <span>{report?.report}</span>
+              </Card.Grid>
+            ))}
         </Card>
       </Col>
     </Row>
