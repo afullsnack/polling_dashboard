@@ -1,5 +1,4 @@
 import { Card, Col, Row, Tabs } from "antd";
-import Base64 from "crypto-js/enc-base64";
 import "isomorphic-fetch";
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
@@ -132,19 +131,25 @@ function Votes() {
               gutter={[8, 8]}
               style={{ width: "100%", margin: 0, padding: 0 }}
             >
-              {resultSheets.map((sheet, i) => (
-                <Col xs={{ span: 24 }} lg={{ span: 6 }}>
-                  <Card
-                    cover={
-                      <img src={Base64.parse(sheet?.url)} height="inherit" />
-                    }
-                  >
-                    <h4>{sheet?.place}</h4>
-                    <span>Latitude: {sheet?.lat}</span>
-                    <span>Longitude: {sheet?.lng}</span>
-                  </Card>
-                </Col>
-              ))}
+              {resultSheets.map((sheet, i) => {
+                // var buff = new Buffer.from(sheet.url, 'base64');
+                return (
+                  <Col xs={{ span: 24 }} lg={{ span: 6 }}>
+                    <Card
+                      cover={
+                        <img
+                          src={"data:image/png;base64," + sheet.url}
+                          height="inherit"
+                        />
+                      }
+                    >
+                      <h4>{sheet?.place}</h4>
+                      <span>Latitude: {sheet?.lat}</span>
+                      <span>Longitude: {sheet?.lng}</span>
+                    </Card>
+                  </Col>
+                );
+              })}
             </Row>
           </TabPane>
         </Tabs>
