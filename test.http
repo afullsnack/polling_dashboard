@@ -55,3 +55,6 @@ Content-Type: application/json
     "LP": 7
   }
 }
+
+### test get report
+GET https://polling-dashboard-beta.vercel.app/api/report?unit=ST. CHARLE'S SCHOOL HTTP/1.1

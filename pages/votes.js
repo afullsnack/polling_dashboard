@@ -69,7 +69,7 @@ function Votes() {
           unitsTotal = vData["data"][i]["WARDS"][j]["PUs"].reduce(
             //SUMMING OF PU TOTALS
             (final, current, idx, array) => {
-              // console.log(val, current, idx);
+              // console.log(array[idx]);
               // if(current["TOTAL_V_COUNT"][val] <= 0){ continue;}
               final += current["TOTAL_V_COUNT"][val];
               array[idx]["REPORT"] !== ""

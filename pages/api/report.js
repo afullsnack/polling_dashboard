@@ -1,5 +1,4 @@
 import handler from "../../lib/handler";
-import initDB from "../../lib/initDB";
 import Votes from "../../models/Votes";
 
 export default handler
@@ -57,7 +56,7 @@ export default handler
         "WARDS.PUs.REPORT",
       ]);
       console.log("Return data", doc);
-      votes
+      doc
         ? res.status(200).json({
             error: false,
             message: "Report found",
@@ -75,7 +74,4 @@ export default handler
         data: null,
       });
     }
-  })
-  .post(async (req, res) => {
-    initDB();
   });
