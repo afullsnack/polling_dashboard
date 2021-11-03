@@ -15,12 +15,12 @@ export default handler
         },
         {
           $set: {
-            "WARDS.$.PUs.$[i].TOTAL_V_COUNT.PDP": vote_count.PDP,
-            "WARDS.$.PUs.$[i].TOTAL_V_COUNT.YPP": vote_count.YPP,
-            "WARDS.$.PUs.$[i].TOTAL_V_COUNT.APC": vote_count.APC,
-            "WARDS.$.PUs.$[i].TOTAL_V_COUNT.APGA": vote_count.APGA,
-            "WARDS.$.PUs.$[i].TOTAL_V_COUNT.ZLP": vote_count.ZLP,
-            "WARDS.$.PUs.$[i].TOTAL_V_COUNT.LP": vote_count.LP,
+            "WARDS.$.PUs.$[i].TOTAL_V_COUNT.PDP": vote_count?.PDP,
+            "WARDS.$.PUs.$[i].TOTAL_V_COUNT.YPP": vote_count?.YPP,
+            "WARDS.$.PUs.$[i].TOTAL_V_COUNT.APC": vote_count?.APC,
+            "WARDS.$.PUs.$[i].TOTAL_V_COUNT.APGA": vote_count?.APGA,
+            "WARDS.$.PUs.$[i].TOTAL_V_COUNT.ZLP": vote_count?.ZLP,
+            "WARDS.$.PUs.$[i].TOTAL_V_COUNT.LP": vote_count?.LP,
           },
         },
         {
