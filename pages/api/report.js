@@ -2,7 +2,7 @@ import handler from "../../lib/handler";
 import Votes from "../../models/Votes";
 
 export default handler
-  .put(async (req, res) => {
+  .post(async (req, res) => {
     try {
       const { report, unit } = req.body;
 

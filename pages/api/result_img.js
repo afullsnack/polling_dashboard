@@ -1,7 +1,7 @@
 import handler from "../../lib/handler";
 import Votes from "../../models/Votes";
 
-export default handler.put(async (req, res) => {
+export default handler.post(async (req, res) => {
   try {
     const { unit, img, lat, lng } = req.body;
 
