@@ -69,7 +69,7 @@ export default handler
             data: null,
           });
     } else {
-      res.status(401).json({
+      res.status(200).json({
         error: true,
         message: "Polling unit not provided",
         data: null,

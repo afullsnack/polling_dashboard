@@ -33,7 +33,7 @@ export default handler.post(async (req, res) => {
     }
     res.status(200).json({
       error: true,
-      message: "Something went wrong trying to save result report",
+      message: "Something went wrong trying to save result image",
       data: null,
     });
   } catch (e) {
