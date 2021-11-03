@@ -6,7 +6,7 @@ export default handler
     try {
       const { name, email, phone } = req.body;
 
-      const newUser = new User({
+      const newUser = User({
         name,
         email,
         phone,
@@ -25,12 +25,11 @@ export default handler
   })
   .get(async (req, res) => {
     // get all the users for the dashboard
-    User.find({}, (err, found) => {
-      console.log("Users", err || found);
-      res.json({
-        error: found ? false : true,
-        message: found ? "Found users" : "No users found, something went wrong",
-        data: found || err,
-      });
+    const users = await User.find({});
+    console.log("Users", err || found);
+    res.json({
+      error: users ? false : true,
+      message: users ? "Found users" : "No users found, something went wrong",
+      data: users || null,
     });
   });

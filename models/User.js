@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
 import { connectDB } from "../lib/db";
-let User;
-try {
-  connectDB();
-  const UserSchema = new mongoose.Schema({
+import { toJSONPlugin, toObjectPlugin, updatedOnHook } from "./plugins";
+
+const { Schema } = mongoose;
+connectDB();
+const userSchema = new Schema(
+  {
     name: { type: String, required: [true, "Please add first name"] },
     phone: {
       type: String,
@@ -13,10 +15,11 @@ try {
       type: String,
       required: [true, "Please add a valid email account"],
     },
-  });
-  User = mongoose.models.User || mongoose.model("User", UserSchema);
-} catch (err) {
-  console.log(err.message || err.toString());
-}
+  },
+  { toObject: toObjectPlugin }
+);
 
-export default User;
+toJSONPlugin(userSchema);
+updatedOnHook(userSchema);
+
+export default mongoose.models.User || mongoose.model("User", userSchema);
