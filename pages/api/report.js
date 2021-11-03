@@ -52,12 +52,10 @@ export default handler
 
     if (unit) {
       console.log("Unit for report", unit);
-      const doc = await Votes.findOne(
-        { "WARDS.PUs.UNIT": unit },
-        {
-          "WARDS.PUs.REPORT": 1,
-        }
-      );
+      const doc = await Votes.findOne({ "WARDS.PUs.UNIT": unit }, [
+        "WARDS.PUs.REPORT",
+        "WARDS.PUs.UNIT",
+      ]);
       console.log("Return data", doc);
       doc
         ? res.status(200).json({
