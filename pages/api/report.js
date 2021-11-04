@@ -7,7 +7,7 @@ export default handler
       const { report, unit, image_data } = req.body;
 
       //Update the unit vote count with data received from client
-      console.log(report, unit);
+      console.log(report, unit, image_data);
       const votes = await Votes.updateOne(
         {
           "WARDS.PUs.UNIT": unit,
@@ -15,7 +15,11 @@ export default handler
         {
           $set: {
             "WARDS.$.PUs.$[i].REPORT": report,
-            "WARDS.$.PUs.$[i].REPORT_IMG": image_data,
+            "WARDS.$.PUs.$[i].REPORT_IMG": {
+              url: image_data.image,
+              lat: image_data.latitude,
+              lng: image_data.longitude,
+            },
           },
         },
         {
