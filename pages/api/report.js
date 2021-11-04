@@ -7,7 +7,7 @@ export default handler
       const { report, unit, image_data } = req.body;
 
       //Update the unit vote count with data received from client
-      console.log(report, unit, image_data);
+      console.log(report, unit);
       const votes = await Votes.updateOne(
         {
           "WARDS.PUs.UNIT": unit,
@@ -60,6 +60,7 @@ export default handler
       const doc = await Votes.findOne({ "WARDS.PUs.UNIT": unit }, [
         "WARDS.PUs.REPORT",
         "WARDS.PUs.UNIT",
+        "WARDS.PUs.REPORT_IMG",
       ]);
       console.log("Return data", doc);
       doc
