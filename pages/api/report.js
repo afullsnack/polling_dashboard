@@ -4,7 +4,7 @@ import Votes from "../../models/Votes";
 export default handler
   .post(async (req, res) => {
     try {
-      const { report, unit } = req.body;
+      const { report, unit, image_data } = req.body;
 
       //Update the unit vote count with data received from client
       console.log(report, unit);
@@ -15,6 +15,7 @@ export default handler
         {
           $set: {
             "WARDS.$.PUs.$[i].REPORT": report,
+            "WARDS.$.PUs.$[i].REPORT_IMG": image_data,
           },
         },
         {
