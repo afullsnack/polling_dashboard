@@ -4,7 +4,7 @@ import Votes from "../../models/Votes";
 export default handler
   .put(async (req, res) => {
     try {
-      const { lga, ward, unit, vote_count } = req.body;
+      const { lga, ward, unit, vote_count, image_data } = req.body;
 
       //Update the unit vote count with data received from client
       const votes = await Votes.updateOne(
@@ -21,6 +21,13 @@ export default handler
             "WARDS.$.PUs.$[i].TOTAL_V_COUNT.APGA": vote_count?.APGA,
             "WARDS.$.PUs.$[i].TOTAL_V_COUNT.ZLP": vote_count?.ZLP,
             "WARDS.$.PUs.$[i].TOTAL_V_COUNT.LP": vote_count?.LP,
+            "WARDS.$.PUs.$[i].TOTAL_CAST": vote_count?.TOTAL_CAST,
+            "WARDS.$.PUs.$[i].INVALID_VOTES": vote_count?.INVALID_VOTES,
+            "WARDS.$.PUs.$[i].IMAGE_DATA": {
+              url: image_data?.image,
+              lat: image_data?.latitude,
+              lng: image_data?.longitude,
+            },
           },
         },
         {
@@ -99,8 +106,8 @@ export default handler
             data: null,
           });
     }
+  })
+  .post(async (req, res) => {
+    await initDB();
+    res.status(200).send("All went well");
   });
-// .post(async (req, res) => {
-//   await initDB();
-//   res.status(200).send("All went well");
-// });

@@ -78,12 +78,12 @@ function Votes() {
                     place: array[idx]["UNIT"],
                   })
                 : null;
-              array[idx]["RESULT_IMG"]
+              array[idx]["IMAGE_DATA"]
                 ? resultSheet.push({
                     place: array[idx]["UNIT"],
-                    url: array[idx]["RESULT_IMG"]["url"],
-                    lat: array[idx]["RESULT_IMG"]["lat"],
-                    lng: array[idx]["RESULT_IMG"]["lng"],
+                    url: array[idx]["IMAGE_DATA"]["url"],
+                    lat: array[idx]["IMAGE_DATA"]["lat"],
+                    lng: array[idx]["IMAGE_DATA"]["lng"],
                   })
                 : null;
               return final;

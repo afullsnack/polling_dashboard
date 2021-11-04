@@ -17,8 +17,9 @@ const voteSchema = new Schema(
             _id: false,
             UNIT: { type: String, default: "", required: true },
             REPORT: { type: String, default: "" },
-            REPORT: { type: String, default: "" },
-            RESULT_IMG: { url: String, lat: String, lng: String },
+            IMAGE_DATA: { url: String, lat: String, lng: String },
+            TOTAL_CAST: { type: Number, default: 0, required: true },
+            INVALID_VOTES: { type: Number, default: 0, required: true },
             TOTAL_V_COUNT: {
               PDP: { type: Number, default: 0, required: true },
               YPP: { type: Number, default: 0, required: true },
