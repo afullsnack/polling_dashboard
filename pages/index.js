@@ -4,6 +4,7 @@ import Card from "antd/lib/card";
 import Col from "antd/lib/col";
 import Row from "antd/lib/row";
 import { getProviders, useSession } from "next-auth/client";
+import Image from "next/image";
 // import styles from "../styles/Home.module.css";
 // import withLayout from "components/globalLayout.js";
 import { useRouter } from "next/router";
@@ -66,6 +67,9 @@ function Login({ providers }) {
               </Button>
             </div>
           ))} */}
+          <Image src="/vco_logo.jpeg" width={650} height={650} />
+          <br />
+          <br />
           <Button
             type="primary"
             size="large"

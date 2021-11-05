@@ -49,7 +49,7 @@ function Report() {
     // after load data
     data ? await setUpData(data) : error;
     return () => {};
-  }, [totalVotes, data]);
+  }, [data]);
 
   return (
     <Row gutter={[16, 16]} style={{ width: "100%", margin: 0, padding: 0 }}>
