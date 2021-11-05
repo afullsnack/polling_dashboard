@@ -13,6 +13,8 @@ function Votes() {
   const [resultSheets, setResultSheets] = useState([]);
 
   const [totalVotes, setTotalVotes] = useState([0, 0, 0, 0, 0, 0]);
+  const [totalCast, setTotalCast] = useState(0);
+  const [invalid, setInvalid] = useState(0);
   // const [newChartData, setNewChartData] = useState(chartData);
   const parties = ["PDP", "APGA", "APC", "YPP", "ZLP", "LP"];
   const chartData = {
@@ -52,6 +54,8 @@ function Votes() {
 
   const setUpData = (vData) => {
     const totalArray = [];
+    const totalVoteCast = 0;
+    const invalidVotes = 0;
     // const resultSheet = [];
     // const incidentReport = [];
     vData["data"];
@@ -71,6 +75,8 @@ function Votes() {
               // console.log(array[idx]);
               // if(current["TOTAL_V_COUNT"][val] <= 0){ continue;}
               final += current["TOTAL_V_COUNT"][val];
+              totalVoteCast += current["TOTAL_CAST"];
+              invalidVotes += current["INVALID_VOTES"];
               // array[idx]["IMAGE_DATA"]
               //   ? resultSheet.push({
               //       place: array[idx]["UNIT"],
@@ -93,6 +99,8 @@ function Votes() {
       totalArray.push(partyTotal);
     });
     setTotalVotes(totalArray);
+    setTotalCas(totalVoteCast);
+    setInvalid(invalidVotes);
     // setResultSheets(resultSheet);
     // setIncidentReports(incidentReport);
   };
