@@ -21,23 +21,16 @@ function Report() {
         //WARD LOOP
         // console.log(vData["data"][i]["WARDS"][j]["PUs"]);
 
-        incidentReport.push(
-          vData["data"][i]["WARDS"][j]["PUs"].reduce(
-            //SUMMING OF PU TOTALS
-            (final, current, idx, array) => {
-              if (current["REPORT"] != "" || current["REPORT"] != null) {
-                final["REPORT"] = current["REPORT"];
-                if (
-                  current["REPORT_IMG"] != undefined ||
-                  current["REPORT_IMG"] != null
-                ) {
-                  final["REPORT_IMG"] = current["REPORT_IMG"];
-                }
-              }
-              return final;
-            },
-            {}
-          )
+        var filteredReport = vData["data"][i]["WARDS"][j]["PUs"].forEach(
+          (item, idx) => {
+            if (item["REPORT"] !== "" && item["REPORT_IMG"] !== undefined) {
+              incidentReport.push({
+                report: item["REPORT"],
+                place: item["UNIT"],
+                imageData: item["REPORT_IMG"],
+              });
+            }
+          }
         );
       }
     }
@@ -53,16 +46,19 @@ function Report() {
 
   return (
     <Row gutter={[16, 16]} style={{ width: "100%", margin: 0, padding: 0 }}>
-      <Col xs={{ span: 24 }} lg={{ span: 24 }}>
-        <Card title="Incident Reports">
-          {[...new Set(incidentReports)].map((report, i) => (
-            <Card.Grid style={{ width: "33%", textAlign: "left" }}>
-              <h4>{report?.place}</h4>
-              <span>{report?.report}</span>
-            </Card.Grid>
-          ))}
-        </Card>
-      </Col>
+      {[...new Set(incidentReports)].map((report, i) => (
+        <Col xs={{ span: 24 }} lg={{ span: 8 }}>
+          <Card
+            title={report?.place}
+            cover={<img src={"" + report?.imageData?.url} />}
+          >
+            <h3>{report?.report}</h3>
+            <br />
+            <h4>{report?.imageData?.lat}</h4>
+            <h4>{report?.imageData?.lng}</h4>
+          </Card>
+        </Col>
+      ))}
     </Row>
   );
 }

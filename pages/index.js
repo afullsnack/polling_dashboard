@@ -16,7 +16,7 @@ function Login({ providers }) {
   const [hasAccount, setHasAccount] = useState(true);
   const [session, loading] = useSession();
   return (
-    <Row gutter={8} style={{ width: "100%", margin: 0, paddingTop: 150 }}>
+    <Row gutter={8} style={{ width: "100%", margin: 0, paddingTop: 50 }}>
       <Col
         xxs={{ span: 0 }}
         xs={{ span: 0 }}
