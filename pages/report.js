@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Card, Col, Row } from "antd";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import withLayout from "../components/layout";
