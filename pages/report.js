@@ -11,7 +11,6 @@ function Report() {
   // Get and setup data
   const setUpData = (vData) => {
     const incidentReport = [];
-    var incidents;
     vData["data"];
     for (var i = 0; i < vData["data"].length; i++) {
       //LGA LOOP
@@ -21,17 +20,15 @@ function Report() {
         //WARD LOOP
         // console.log(vData["data"][i]["WARDS"][j]["PUs"]);
 
-        var filteredReport = vData["data"][i]["WARDS"][j]["PUs"].forEach(
-          (item, idx) => {
-            if (item["REPORT"] !== "" && item["REPORT_IMG"] !== undefined) {
-              incidentReport.push({
-                report: item["REPORT"],
-                place: item["UNIT"],
-                imageData: item["REPORT_IMG"],
-              });
-            }
+        vData["data"][i]["WARDS"][j]["PUs"].forEach((item, idx) => {
+          if (item["REPORT"] !== "" && item["REPORT_IMG"] !== undefined) {
+            incidentReport.push({
+              report: item["REPORT"],
+              place: item["UNIT"],
+              imageData: item["REPORT_IMG"],
+            });
           }
-        );
+        });
       }
     }
     setIncidentReports(incidentReport);

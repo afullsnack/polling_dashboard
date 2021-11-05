@@ -115,7 +115,7 @@ function Votes() {
     <Row gutter={[16, 16]} style={{ width: "100%", margin: 0, padding: 0 }}>
       <Col xs={{ span: 24 }} lg={{ span: 24 }}>
         <span style={{ marginRight: 20 }}>Total Votes Cast: {totalCast}</span>
-        <span>Total Invalid Votes: {invalidVotes}</span>
+        <span>Total Invalid Votes: {invalid}</span>
         {/* <Button onClick={() => setTotalVotes([1, 2, 3, 4, 5, 6])}>
           Change Data
         </Button>
