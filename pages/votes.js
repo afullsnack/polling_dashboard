@@ -1,4 +1,4 @@
-import { Card, Col, Row, Tabs } from "antd";
+import { Card, Col, Row, Statistic, Tabs } from "antd";
 import "isomorphic-fetch";
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
@@ -11,11 +11,10 @@ const { TabPane } = Tabs;
 function Votes() {
   const { error, data } = useSWR(`${url}/api/votes`);
   const [resultSheets, setResultSheets] = useState([]);
-  const [incidentReports, setIncidentReports] = useState([]);
 
   const [totalVotes, setTotalVotes] = useState([0, 0, 0, 0, 0, 0]);
   // const [newChartData, setNewChartData] = useState(chartData);
-  const parties = ["PDP", "YPP", "APC", "APGA", "ZLP", "LP"];
+  const parties = ["PDP", "APGA", "APC", "YPP", "ZLP", "LP"];
   const chartData = {
     labels: parties,
     datasets: [
@@ -53,8 +52,8 @@ function Votes() {
 
   const setUpData = (vData) => {
     const totalArray = [];
-    const resultSheet = [];
-    const incidentReport = [];
+    // const resultSheet = [];
+    // const incidentReport = [];
     vData["data"];
     parties.forEach((val, idxx) => {
       var partyTotal = 0;
@@ -72,20 +71,14 @@ function Votes() {
               // console.log(array[idx]);
               // if(current["TOTAL_V_COUNT"][val] <= 0){ continue;}
               final += current["TOTAL_V_COUNT"][val];
-              array[idx]["REPORT"] !== ""
-                ? incidentReport.push({
-                    report: array[idx]["REPORT"],
-                    place: array[idx]["UNIT"],
-                  })
-                : null;
-              array[idx]["IMAGE_DATA"]
-                ? resultSheet.push({
-                    place: array[idx]["UNIT"],
-                    url: array[idx]["IMAGE_DATA"]["url"],
-                    lat: array[idx]["IMAGE_DATA"]["lat"],
-                    lng: array[idx]["IMAGE_DATA"]["lng"],
-                  })
-                : null;
+              // array[idx]["IMAGE_DATA"]
+              //   ? resultSheet.push({
+              //       place: array[idx]["UNIT"],
+              //       url: array[idx]["IMAGE_DATA"]["url"],
+              //       lat: array[idx]["IMAGE_DATA"]["lat"],
+              //       lng: array[idx]["IMAGE_DATA"]["lng"],
+              //     })
+              //   : null;
               return final;
             },
             0
@@ -100,8 +93,8 @@ function Votes() {
       totalArray.push(partyTotal);
     });
     setTotalVotes(totalArray);
-    setResultSheets(resultSheet);
-    setIncidentReports(incidentReport);
+    // setResultSheets(resultSheet);
+    // setIncidentReports(incidentReport);
   };
 
   useEffect(async () => {
@@ -123,48 +116,33 @@ function Votes() {
       </Col>
       <Col xs={{ span: 24 }} lg={{ span: 24 }}>
         <Tabs defaultActiveKey="1" onChange={(key) => console.log(key)}>
-          <TabPane tab="Chart" key="1">
-            <Bar data={chartData} options={options} />
+          <TabPane tab="Results" key="1">
+            <Row
+              gutter={[16, 16]}
+              style={{ width: "100%", margin: 0, padding: 0 }}
+            >
+              {parties.map((party, i) => (
+                <Col xs={{ span: 24 }} lg={{ span: 8 }}>
+                  <Card>
+                    <Statistic
+                      title={"TOTAL " + party + " VOTES"}
+                      value={totalVotes[i]}
+                    />
+                  </Card>
+                </Col>
+              ))}
+            </Row>
           </TabPane>
-          <TabPane tab="Result Sheet" key="2">
+          <TabPane tab="Chart" key="2">
             <Row
               gutter={[8, 8]}
               style={{ width: "100%", margin: 0, padding: 0 }}
             >
-              {[...new Set(resultSheets)].map((sheet, i) => {
-                // var buff = new Buffer.from(sheet.url, 'base64');
-                return (
-                  <Col xs={{ span: 24 }} lg={{ span: 6 }}>
-                    <Card
-                      cover={
-                        <img
-                          src={"data:image/png;base64," + sheet.url}
-                          height="inherit"
-                        />
-                      }
-                    >
-                      <h4>{sheet?.place}</h4>
-                      <span>Latitude: {sheet?.lat}</span>
-                      <br />
-                      <span>Longitude: {sheet?.lng}</span>
-                    </Card>
-                  </Col>
-                );
-              })}
+              <Bar data={chartData} options={options} />
             </Row>
           </TabPane>
         </Tabs>
         {/* {!data ? "Loading..." : setUpData(data) || error} */}
-      </Col>
-      <Col xs={{ span: 24 }} lg={{ span: 24 }}>
-        <Card title="Incident Reports">
-          {[...new Set(incidentReports)].map((report, i) => (
-            <Card.Grid style={{ width: "33%", textAlign: "left" }}>
-              <h4>{report?.place}</h4>
-              <span>{report?.report}</span>
-            </Card.Grid>
-          ))}
-        </Card>
       </Col>
     </Row>
   );

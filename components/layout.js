@@ -55,7 +55,7 @@ export default function withLayout(BaseComp) {
             left: 0,
           }}
         >
-          <div className="logo" />
+          <div className="logo">VCO DASH</div>
           <Menu
             theme="dark"
             mode="inline"
@@ -75,6 +75,9 @@ export default function withLayout(BaseComp) {
             </Menu.Item>
             <Menu.Item key="votes" icon={<ContainerOutlined />}>
               Votes
+            </Menu.Item>
+            <Menu.Item key="report" icon={<ContainerOutlined />}>
+              Reports
             </Menu.Item>
             <Menu.Item key="users" icon={<UserOutlined />}>
               Users
@@ -206,6 +209,13 @@ export default function withLayout(BaseComp) {
             height: 32px;
             margin: 16px;
             background: rgba(255, 255, 255, 0.3);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: auto 10px;
+            color: white;
+            font-weight: bolder;
           }
 
           .site-layout {
