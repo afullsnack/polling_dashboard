@@ -54,8 +54,8 @@ function Votes() {
 
   const setUpData = (vData) => {
     const totalArray = [];
-    const totalVoteCast = 0;
-    const invalidVotes = 0;
+    var totalVoteCast = 0;
+    var invalidVotes = 0;
     // const resultSheet = [];
     // const incidentReport = [];
     vData["data"];

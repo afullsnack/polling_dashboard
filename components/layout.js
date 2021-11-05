@@ -9,6 +9,7 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu, Select } from "antd";
 import { useSession } from "next-auth/client";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { createElement, useState } from "react";
 import { SWRConfig } from "swr";
@@ -42,20 +43,30 @@ export default function withLayout(BaseComp) {
 
     return (
       <Layout style={{ minHeight: "100vh", overflowY: "hidden" }}>
+        <Head>
+          <title>VCO - Dashboard</title>
+          <meta name="description" content="VCO - Polling dashboard" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0,  user-scalable=no, maximum-scale=1"
+          />
+          <link rel="icon" href="/vco_logo.jpeg" />
+        </Head>
         <Sider
           trigger={null}
           breakpoint="lg"
           collapsible
           collapsed={collapsed}
+          collapsedWidth={0}
           style={{
             // height: "inherit",
-            overflow: "auto",
+            overflow: "hidden",
             height: "100vh",
             position: "fixed",
             left: 0,
           }}
         >
-          <div className="logo">VCO DASH</div>
+          <div className="logo" />
           <Menu
             theme="dark"
             mode="inline"
@@ -99,7 +110,7 @@ export default function withLayout(BaseComp) {
           style={{
             height: "100%",
             overflowY: "scroll",
-            marginLeft: collapsed ? 80 : 200,
+            marginLeft: collapsed ? 0 : 200,
           }}
         >
           <Header
@@ -206,9 +217,14 @@ export default function withLayout(BaseComp) {
           }
 
           .logo {
-            height: 32px;
-            margin: 16px;
+            margin: 26px;
+            height: 155px;
             background: rgba(255, 255, 255, 0.3);
+            background-image: url("/vco_logo.jpeg");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            border-radius: 100%;
 
             display: flex;
             align-items: center;
