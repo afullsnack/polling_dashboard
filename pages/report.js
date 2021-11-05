@@ -13,16 +13,16 @@ function Report() {
     const incidentReport = [];
     var incidents;
     vData["data"];
-    parties.forEach((val, idxx) => {
-      for (var i = 0; i < vData["data"].length; i++) {
-        //LGA LOOP
-        // console.log(vData["data"][i]["LGA"]);
+    for (var i = 0; i < vData["data"].length; i++) {
+      //LGA LOOP
+      // console.log(vData["data"][i]["LGA"]);
 
-        for (var j = 0; j < vData["data"][i]["WARDS"].length; j++) {
-          //WARD LOOP
-          // console.log(vData["data"][i]["WARDS"][j]["PUs"]);
+      for (var j = 0; j < vData["data"][i]["WARDS"].length; j++) {
+        //WARD LOOP
+        // console.log(vData["data"][i]["WARDS"][j]["PUs"]);
 
-          incidents = vData["data"][i]["WARDS"][j]["PUs"].reduce(
+        incidentReport.push(
+          vData["data"][i]["WARDS"][j]["PUs"].reduce(
             //SUMMING OF PU TOTALS
             (final, current, idx, array) => {
               if (current["REPORT"] != "" || current["REPORT"] != null) {
@@ -37,12 +37,12 @@ function Report() {
               return final;
             },
             {}
-          );
-        }
+          )
+        );
       }
-    });
-    // setIncidentReports(incidentReport);
-    console.log("Incidents", incidents);
+    }
+    setIncidentReports(incidentReport);
+    console.log("Incidents", incidentReport);
   };
 
   useEffect(async () => {

@@ -67,7 +67,7 @@ function Login({ providers }) {
               </Button>
             </div>
           ))} */}
-          <Image src="/vco_logo.jpeg" width={650} height={650} />
+          <Image src="/vco_logo.jpeg" width={400} height={400} />
           <br />
           <br />
           <Button
