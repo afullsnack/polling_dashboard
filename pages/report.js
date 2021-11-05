@@ -48,14 +48,18 @@ function Report() {
           <Card
             title={report?.place}
             cover={
-              <img src={"data:image/jpeg;base64," + report?.imageData?.url} />
+              <img
+                src={"data:image/jpeg;base64," + report?.imageData?.url}
+                width="inherit"
+                height="100%"
+              />
             }
             style={{ height: "100%" }}
           >
             <h3>{report?.report}</h3>
             <br />
-            <h4>{report?.imageData?.lat}</h4>
-            <h4>{report?.imageData?.lng}</h4>
+            <h4>LATITUDE: {report?.imageData?.lat}</h4>
+            <h4>LONGITUDE: {report?.imageData?.lng}</h4>
           </Card>
         </Col>
       ))}
