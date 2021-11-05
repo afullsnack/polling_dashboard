@@ -35,6 +35,20 @@ Content-Type: application/json
 POST http://localhost:3000/api/votes
 
 
+### test user EP
+POST http://localhost:3000/api/user HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Dami A",
+  "email": "dami@gmail.com",
+  "phone": "09012345678"
+}
+
+###
+PUT http://localhost:3000/api/user HTTP/1.1
+
+
 ### Init DB LIVE
 POST https://polling-dashboard-beta.vercel.app/api/votes
 
