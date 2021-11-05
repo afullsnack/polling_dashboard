@@ -47,7 +47,10 @@ function Report() {
         <Col xs={{ span: 24 }} lg={{ span: 8 }}>
           <Card
             title={report?.place}
-            cover={<img src={"" + report?.imageData?.url} />}
+            cover={
+              <img src={"data:image/jpeg;base64," + report?.imageData?.url} />
+            }
+            style={{ height: "100%" }}
           >
             <h3>{report?.report}</h3>
             <br />

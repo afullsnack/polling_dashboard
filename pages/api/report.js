@@ -62,7 +62,7 @@ export default handler
         "WARDS.PUs.UNIT",
         "WARDS.PUs.REPORT_IMG",
       ]);
-      console.log("Return data", doc);
+      console.log("Return data", doc, typeof doc);
       doc
         ? res.status(200).json({
             error: false,

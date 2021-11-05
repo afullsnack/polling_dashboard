@@ -69,25 +69,15 @@ function Votes() {
           //WARD LOOP
           // console.log(vData["data"][i]["WARDS"][j]["PUs"]);
           var unitsTotal = 0;
-          unitsTotal = vData["data"][i]["WARDS"][j]["PUs"].reduce(
+          vData["data"][i]["WARDS"][j]["PUs"].forEach(
             //SUMMING OF PU TOTALS
-            (final, current, idx, array) => {
+            (item, idx) => {
               // console.log(array[idx]);
               // if(current["TOTAL_V_COUNT"][val] <= 0){ continue;}
-              final += current["TOTAL_V_COUNT"][val];
-              totalVoteCast += current["TOTAL_CAST"];
-              invalidVotes += current["INVALID_VOTES"];
-              // array[idx]["IMAGE_DATA"]
-              //   ? resultSheet.push({
-              //       place: array[idx]["UNIT"],
-              //       url: array[idx]["IMAGE_DATA"]["url"],
-              //       lat: array[idx]["IMAGE_DATA"]["lat"],
-              //       lng: array[idx]["IMAGE_DATA"]["lng"],
-              //     })
-              //   : null;
-              return final;
-            },
-            0
+              unitsTotal += item["TOTAL_V_COUNT"][val];
+              totalVoteCast += item["TOTAL_CAST"];
+              invalidVotes += item["INVALID_VOTES"];
+            }
           );
           wardsTotal += unitsTotal;
           // console.log(val, "UNIT TOTAL:", unitsTotal);
