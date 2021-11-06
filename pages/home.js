@@ -1,4 +1,14 @@
-import { Card, Col, Radio, Row, Select, Statistic, Switch, Tabs } from "antd";
+import {
+  Card,
+  Col,
+  Radio,
+  Row,
+  Select,
+  Spin,
+  Statistic,
+  Switch,
+  Tabs
+} from "antd";
 import "isomorphic-fetch";
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
@@ -31,6 +41,7 @@ function Votes() {
   const [invalid, setInvalid] = useState(0);
   const [filterBy, setFilterBy] = useState("lga");
   const [filter, setFilter] = useState(false);
+  const [loading, setLoading] = useState(true);
   // const [newChartData, setNewChartData] = useState(chartData);
   const parties = ["PDP", "APGA", "APC", "YPP", "ZLP", "LP"];
   const chartData = {
@@ -109,6 +120,7 @@ function Votes() {
     setTotalVotes(totalArray);
     setTotalCast(totalVoteCast);
     setInvalid(invalidVotes);
+    setLoading(false);
     // setResultSheets(resultSheet);
     // setIncidentReports(incidentReport);
   };
@@ -208,16 +220,28 @@ function Votes() {
               gutter={[16, 16]}
               style={{ width: "100%", margin: 0, padding: 0 }}
             >
-              {parties.map((party, i) => (
-                <Col xs={{ span: 24 }} lg={{ span: 8 }}>
-                  <Card>
-                    <Statistic
-                      title={"TOTAL " + party + " VOTES"}
-                      value={totalVotes[i]}
-                    />
-                  </Card>
-                </Col>
-              ))}
+              {loading == false ? (
+                parties.map((party, i) => (
+                  <Col xs={{ span: 24 }} lg={{ span: 8 }}>
+                    <Card>
+                      <Statistic
+                        title={"TOTAL " + party + " VOTES"}
+                        value={totalVotes[i]}
+                      />
+                    </Card>
+                  </Col>
+                ))
+              ) : (
+                <>
+                  <Spin size="large" />
+                  <br />
+                  {data ? (
+                    <span>Data received...processing result data</span>
+                  ) : (
+                    <span>Loading data...</span>
+                  )}
+                </>
+              )}
             </Row>
           </TabPane>
           <TabPane tab="Chart" key="2">

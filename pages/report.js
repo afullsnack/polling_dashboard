@@ -7,7 +7,7 @@ import { url } from "../lib/config";
 function Report() {
   const { error, data } = useSWR(`${url}/api/votes`);
   const [incidentReports, setIncidentReports] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   // Get and setup data
   const setUpData = (vData) => {
     const incidentReport = [];
@@ -36,6 +36,7 @@ function Report() {
       }
     }
     setIncidentReports(incidentReport);
+    setLoading(false);
     console.log("Incidents", incidentReport);
   };
 
@@ -47,15 +48,17 @@ function Report() {
 
   return (
     <Row gutter={[16, 16]} style={{ width: "100%", margin: 0, padding: 0 }}>
-      {incidentReports.length > 0 ? (
+      {loading == false ? (
         [...new Set(incidentReports)].map((report, i) => (
           <Col xs={{ span: 24 }} lg={{ span: 8 }}>
             <Card
               cover={
-                <img
-                  src={"data:image/jpeg;base64," + report?.imageData?.url}
-                  width="inherit"
-                />
+                report?.imageData?.url != "" ? (
+                  <img
+                    src={"data:image/jpeg;base64," + report?.imageData?.url}
+                    width="inherit"
+                  />
+                ) : null
               }
               style={{ height: "100%" }}
             >
@@ -72,7 +75,9 @@ function Report() {
           </Col>
         ))
       ) : (
-        <Spin size="large" />
+        <center>
+          <Spin size="large" />
+        </center>
       )}
     </Row>
   );

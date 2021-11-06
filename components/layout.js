@@ -51,6 +51,24 @@ export default function withLayout(BaseComp) {
             content="width=device-width, initial-scale=1.0,  user-scalable=no, maximum-scale=1"
           />
           <link rel="icon" href="/vco_logo.jpeg" />
+          <link
+            rel="preload"
+            href="/api/report"
+            as="fetch"
+            crossorigin="anonymous"
+          />
+          <link
+            rel="preload"
+            href="/api/votes"
+            as="fetch"
+            crossorigin="anonymous"
+          />
+          <link
+            rel="preload"
+            href="/api/user"
+            as="fetch"
+            crossorigin="anonymous"
+          />
         </Head>
         <Sider
           trigger={null}
