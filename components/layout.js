@@ -84,9 +84,6 @@ export default function withLayout(BaseComp) {
             <Menu.Item key="home" icon={<DashboardOutlined />}>
               Home
             </Menu.Item>
-            <Menu.Item key="votes" icon={<ContainerOutlined />}>
-              Votes
-            </Menu.Item>
             <Menu.Item key="report" icon={<ContainerOutlined />}>
               Reports
             </Menu.Item>

@@ -46,7 +46,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3000/api/user HTTP/1.1
+GET http://localhost:3000/api/user?email=dami@gmail.com HTTP/1.1
 
 
 ### Init DB LIVE
