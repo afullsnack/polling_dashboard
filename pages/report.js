@@ -1,3 +1,4 @@
+import { EnvironmentOutlined } from "@ant-design/icons";
 import { Card, Col, Row, Spin } from "antd";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
@@ -64,6 +65,7 @@ function Report() {
               <h3>{report?.report}</h3>
               <br />
               <span>
+                <EnvironmentOutlined style={{ marginRight: 10 }} />
                 {report?.place?.unit}, {report?.place?.ward},{" "}
                 {report?.place?.lga}
               </span>

@@ -23,7 +23,7 @@ export default function withLayout(BaseComp) {
     // state = {
     //   collapsed: false,
     // };
-    const [collapsed, setCollapsed] = useState(false);
+    const [collapsed, setCollapsed] = useState(true);
     const [key, setKey] = useState(router.asPath.replace("/", ""));
     console.log(router.asPath, key);
 

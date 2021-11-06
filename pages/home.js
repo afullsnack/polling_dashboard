@@ -83,8 +83,6 @@ function Votes() {
     const totalArray = [];
     var totalVoteCast = 0;
     var invalidVotes = 0;
-    // const resultSheet = [];
-    // const incidentReport = [];
     vData["data"];
     parties.forEach((val, idxx) => {
       var partyTotal = 0;
@@ -99,30 +97,39 @@ function Votes() {
           vData["data"][i]["WARDS"][j]["PUs"].forEach(
             //SUMMING OF PU TOTALS
             (item, idx) => {
-              // console.log(array[idx]);
-              // if(current["TOTAL_V_COUNT"][val] <= 0){ continue;}
               unitsTotal += item["TOTAL_V_COUNT"][val];
-              totalVoteCast += item["TOTAL_CAST"];
-              invalidVotes += item["INVALID_VOTES"];
             }
           );
           wardsTotal += unitsTotal;
-          // console.log(val, "UNIT TOTAL:", unitsTotal);
         }
         partyTotal += wardsTotal;
-        // console.log(val, "WARD TOTAL:", wardsTotal);
       }
       // console.log(val, "LGA TOTAL:", partyTotal);
       totalArray.push(partyTotal);
     });
+
+    for (var i = 0; i < vData["data"].length; i++) {
+      var totalVoteCast1 = 0;
+      var invalidVotes1 = 0;
+      for (var j = 0; j < vData["data"][i]["WARDS"].length; j++) {
+        var totalVoteCast2 = 0;
+        var invalidVotes2 = 0;
+        vData["data"][i]["WARDS"][j]["PUs"].forEach((item, idx) => {
+          totalVoteCast2 += item["TOTAL_CAST"];
+          invalidVotes2 += item["INVALID_VOTES"];
+        });
+        totalVoteCast1 += totalVoteCast2;
+        invalidVotes1 += invalidVotes2;
+      }
+      totalVoteCast += totalVoteCast1;
+      invalidVotes += invalidVotes1;
+    }
 
     setLoading(false);
     if (totalVoteCast === totalCast || invalidVotes === invalid) return;
     setTotalVotes(totalArray);
     setTotalCast(totalVoteCast);
     setInvalid(invalidVotes);
-    // setResultSheets(resultSheet);
-    // setIncidentReports(incidentReport);
   };
 
   const filterByChange = (e) => setFilterBy(e.target.value);
