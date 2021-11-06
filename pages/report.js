@@ -37,7 +37,6 @@ function Report() {
     }
     setIncidentReports(incidentReport);
     setLoading(false);
-    console.log("Incidents", incidentReport);
   };
 
   useEffect(async () => {

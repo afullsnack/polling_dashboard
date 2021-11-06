@@ -7,7 +7,7 @@ import {
   Spin,
   Statistic,
   Switch,
-  Tabs
+  Tabs,
 } from "antd";
 import "isomorphic-fetch";
 import { useEffect, useState } from "react";
@@ -116,11 +116,11 @@ function Votes() {
       totalArray.push(partyTotal);
     });
 
+    setLoading(false);
     if (totalVoteCast === totalCast || invalidVotes === invalid) return;
     setTotalVotes(totalArray);
     setTotalCast(totalVoteCast);
     setInvalid(invalidVotes);
-    setLoading(false);
     // setResultSheets(resultSheet);
     // setIncidentReports(incidentReport);
   };
@@ -232,15 +232,7 @@ function Votes() {
                   </Col>
                 ))
               ) : (
-                <>
-                  <Spin size="large" />
-                  <br />
-                  {data ? (
-                    <span>Data received...processing result data</span>
-                  ) : (
-                    <span>Loading data...</span>
-                  )}
-                </>
+                <Spin size="large" />
               )}
             </Row>
           </TabPane>
