@@ -31,6 +31,7 @@ function Report() {
                 lga: vData["data"][i]["LGA"],
               },
               imageData: item["REPORT_IMG"],
+              timestamp: item["REPORT_TIME"],
             });
           }
         });
@@ -76,6 +77,8 @@ function Report() {
                 {report?.place?.unit}, {report?.place?.ward},{" "}
                 {report?.place?.lga}
               </span>
+              <br />
+              <span>TIME: {report?.timestamp}</span>
               <br />
               <h4>LATITUDE: {report?.imageData?.lat}</h4>
               <h4>LONGITUDE: {report?.imageData?.lng}</h4>

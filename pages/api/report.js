@@ -15,6 +15,7 @@ export default handler
         {
           $set: {
             "WARDS.$.PUs.$[i].REPORT": report,
+            "WARDS.$.PUs.$[i].REPORT_TIME": new Date.now().toString(),
             "WARDS.$.PUs.$[i].REPORT_IMG": {
               url: image_data.image,
               lat: image_data.latitude,
@@ -61,6 +62,7 @@ export default handler
         "WARDS.PUs.REPORT",
         "WARDS.PUs.UNIT",
         "WARDS.PUs.REPORT_IMG",
+        "WARDS.PUs.REPORT_TIME",
       ]);
       console.log("Return data", doc, typeof doc);
       doc
