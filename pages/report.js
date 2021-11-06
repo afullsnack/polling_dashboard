@@ -26,7 +26,7 @@ function Report() {
               report: item["REPORT"],
               place: {
                 unit: item["UNIT"],
-                ward: vData["data"][i]["WARDS"][j]["UNIT"],
+                ward: vData["data"][i]["WARDS"][j]["WARD"],
                 lga: vData["data"][i]["LGA"],
               },
               imageData: item["REPORT_IMG"],
