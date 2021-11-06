@@ -1,4 +1,4 @@
-import { Card, Col, Row } from "antd";
+import { Card, Col, Row, Spin } from "antd";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import withLayout from "../components/layout";
@@ -24,7 +24,11 @@ function Report() {
           if (item["REPORT"] !== "" && item["REPORT_IMG"] !== undefined) {
             incidentReport.push({
               report: item["REPORT"],
-              place: item["UNIT"],
+              place: {
+                unit: item["UNIT"],
+                ward: vData["data"][i]["WARDS"][j]["UNIT"],
+                lga: vData["data"][i]["LGA"],
+              },
               imageData: item["REPORT_IMG"],
             });
           }
@@ -43,25 +47,33 @@ function Report() {
 
   return (
     <Row gutter={[16, 16]} style={{ width: "100%", margin: 0, padding: 0 }}>
-      {[...new Set(incidentReports)].map((report, i) => (
-        <Col xs={{ span: 24 }} lg={{ span: 8 }}>
-          <Card
-            title={report?.place}
-            cover={
-              <img
-                src={"data:image/jpeg;base64," + report?.imageData?.url}
-                width="inherit"
-              />
-            }
-            style={{ height: "100%" }}
-          >
-            <h3>{report?.report}</h3>
-            <br />
-            <h4>LATITUDE: {report?.imageData?.lat}</h4>
-            <h4>LONGITUDE: {report?.imageData?.lng}</h4>
-          </Card>
-        </Col>
-      ))}
+      {incidentReports.length > 0 ? (
+        [...new Set(incidentReports)].map((report, i) => (
+          <Col xs={{ span: 24 }} lg={{ span: 8 }}>
+            <Card
+              cover={
+                <img
+                  src={"data:image/jpeg;base64," + report?.imageData?.url}
+                  width="inherit"
+                />
+              }
+              style={{ height: "100%" }}
+            >
+              <h3>{report?.report}</h3>
+              <br />
+              <span>
+                {report?.place?.unit}, {report?.place?.ward},{" "}
+                {report?.place?.lga}
+              </span>
+              <br />
+              <h4>LATITUDE: {report?.imageData?.lat}</h4>
+              <h4>LONGITUDE: {report?.imageData?.lng}</h4>
+            </Card>
+          </Col>
+        ))
+      ) : (
+        <Spin size="large" />
+      )}
     </Row>
   );
 }
