@@ -51,7 +51,6 @@ function Report() {
               <img
                 src={"data:image/jpeg;base64," + report?.imageData?.url}
                 width="inherit"
-                height="100%"
               />
             }
             style={{ height: "100%" }}
