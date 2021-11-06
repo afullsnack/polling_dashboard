@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import useSWR from "swr";
 import withLayout from "../components/layout";
 import { url } from "../lib/config";
+import { ExportCSV } from "../lib/exportToFile";
 
 function Report() {
   const { error, data } = useSWR(`${url}/api/votes`);
@@ -12,7 +13,6 @@ function Report() {
   // Get and setup data
   const setUpData = (vData) => {
     const incidentReport = [];
-    vData["data"];
     for (var i = 0; i < vData["data"].length; i++) {
       //LGA LOOP
       // console.log(vData["data"][i]["LGA"]);
@@ -48,6 +48,11 @@ function Report() {
 
   return (
     <Row gutter={[16, 16]} style={{ width: "100%", margin: 0, padding: 0 }}>
+      <Col span={24}>
+        <Card>
+          <ExportCSV jsonData={incidentReports} fileName="Incident reports" />
+        </Card>
+      </Col>
       {loading == false ? (
         [...new Set(incidentReports)].map((report, i) => (
           <Col xs={{ span: 24 }} lg={{ span: 8 }}>
@@ -65,7 +70,9 @@ function Report() {
               <h3>{report?.report}</h3>
               <br />
               <span>
-                <EnvironmentOutlined style={{ marginRight: 10 }} />
+                <EnvironmentOutlined
+                  style={{ marginRight: 10, color: "#1890ff" }}
+                />
                 {report?.place?.unit}, {report?.place?.ward},{" "}
                 {report?.place?.lga}
               </span>
