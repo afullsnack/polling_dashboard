@@ -269,7 +269,7 @@ function Votes() {
     }
 
     setLoading(false);
-    if (totalVoteCast === totalCast && invalidVotes === invalid) return;
+    // if (totalVoteCast === totalCast && invalidVotes === invalid) return;
     setTotalVotes(totalArray);
     setTotalCast(totalVoteCast);
     setInvalid(invalidVotes);
