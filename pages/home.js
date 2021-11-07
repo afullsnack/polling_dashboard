@@ -110,10 +110,9 @@ function Votes() {
               partyTotal += wardsTotal;
             }
           }
+          if (partyTotal === totalVotes[idxx]) return;
           totalArray.push(partyTotal);
           setTotalVotes(totalArray);
-          // console.log(val, "LGA TOTAL:", partyTotal);
-          return;
         } else if (wardVal) {
           // For if ward filter is selected
 
@@ -135,10 +134,9 @@ function Votes() {
               partyTotal += wardsTotal;
             }
           }
+          if (partyTotal === totalVotes[idxx]) return;
           totalArray.push(partyTotal);
           setTotalVotes(totalArray);
-          // console.log(val, "LGA TOTAL:", partyTotal);
-          return;
         } else if (lgaVal) {
           for (var i = 0; i < vData["data"]?.length; i++) {
             var wardsTotal = 0;
@@ -158,10 +156,10 @@ function Votes() {
               partyTotal += wardsTotal;
             }
           }
-          // console.log(val, "LGA TOTAL:", partyTotal);
+          if (partyTotal === totalVotes[idxx]) return;
           totalArray.push(partyTotal);
+
           setTotalVotes(totalArray);
-          return;
         }
       } else {
         for (var i = 0; i < vData["data"]?.length; i++) {
@@ -180,7 +178,7 @@ function Votes() {
           }
           partyTotal += wardsTotal;
         }
-        // console.log(val, "LGA TOTAL:", partyTotal);
+        if (partyTotal === totalVotes[idxx]) return;
         totalArray.push(partyTotal);
         setTotalVotes(totalArray);
       }
