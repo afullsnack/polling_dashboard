@@ -111,6 +111,7 @@ function Votes() {
             }
           }
           totalArray.push(partyTotal);
+          setTotalVotes(totalArray);
           // console.log(val, "LGA TOTAL:", partyTotal);
           return;
         } else if (wardVal) {
@@ -135,6 +136,7 @@ function Votes() {
             }
           }
           totalArray.push(partyTotal);
+          setTotalVotes(totalArray);
           // console.log(val, "LGA TOTAL:", partyTotal);
           return;
         } else if (lgaVal) {
@@ -158,6 +160,7 @@ function Votes() {
           }
           // console.log(val, "LGA TOTAL:", partyTotal);
           totalArray.push(partyTotal);
+          setTotalVotes(totalArray);
           return;
         }
       } else {
@@ -179,6 +182,7 @@ function Votes() {
         }
         // console.log(val, "LGA TOTAL:", partyTotal);
         totalArray.push(partyTotal);
+        setTotalVotes(totalArray);
       }
     });
 
@@ -269,8 +273,8 @@ function Votes() {
     }
 
     setLoading(false);
-    // if (totalVoteCast === totalCast && invalidVotes === invalid) return;
-    setTotalVotes(totalArray);
+    if (totalVoteCast === totalCast && invalidVotes === invalid) return;
+
     setTotalCast(totalVoteCast);
     setInvalid(invalidVotes);
   };
