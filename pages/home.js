@@ -1,20 +1,12 @@
-import {
-  Card,
-  Col,
-  Radio,
-  Row,
-  Select,
-  Spin,
-  Statistic,
-  Switch,
-  Tabs,
-} from "antd";
+import { Card, Col, Row, Select, Spin, Statistic, Switch, Tabs } from "antd";
 import "isomorphic-fetch";
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import useSWR from "swr";
 import withLayout from "../components/layout";
-import { url } from "../lib/config";
+import { pdata, url } from "../lib/config";
+
+// console.log("Polling data", data);
 
 const { TabPane } = Tabs;
 const { Option } = Select;
@@ -32,6 +24,7 @@ const radioOptions = [
     value: "unit",
   },
 ];
+const _lgaList = pdata.map((item) => item?.LGA);
 
 function Votes() {
   const { error, data } = useSWR(`${url}/api/votes`);
@@ -39,10 +32,16 @@ function Votes() {
   const [totalVotes, setTotalVotes] = useState([0, 0, 0, 0, 0, 0]);
   const [totalCast, setTotalCast] = useState(0);
   const [invalid, setInvalid] = useState(0);
-  const [filterBy, setFilterBy] = useState("lga");
   const [filter, setFilter] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [lgaVal, setLGAVal] = useState();
+  const [wardVal, setWARDVal] = useState();
+  const [unitVal, setUNITVal] = useState();
   // const [newChartData, setNewChartData] = useState(chartData);
+
+  const [_wardList, _setWardList] = useState([]);
+  const [_pollingList, _setPollingList] = useState([]);
+
   const parties = ["PDP", "APGA", "APC", "YPP", "ZLP", "LP"];
   const chartData = {
     labels: parties,
@@ -83,63 +82,206 @@ function Votes() {
     const totalArray = [];
     var totalVoteCast = 0;
     var invalidVotes = 0;
-    vData["data"];
+    // console.log("Data", vData["data"]);
     parties.forEach((val, idxx) => {
+      // check the if filter is on
       var partyTotal = 0;
-      for (var i = 0; i < vData["data"].length; i++) {
-        //LGA LOOP
-        // console.log(vData["data"][i]["LGA"]);
-        var wardsTotal = 0;
-        for (var j = 0; j < vData["data"][i]["WARDS"].length; j++) {
-          //WARD LOOP
-          // console.log(vData["data"][i]["WARDS"][j]["PUs"]);
-          var unitsTotal = 0;
-          vData["data"][i]["WARDS"][j]["PUs"].forEach(
-            //SUMMING OF PU TOTALS
-            (item, idx) => {
-              unitsTotal += item["TOTAL_V_COUNT"][val];
+      if (filter) {
+        if (unitVal) {
+          // For if unit filter is selected
+
+          for (var i = 0; i < vData["data"]?.length; i++) {
+            var wardsTotal = 0;
+            if (lgaVal === vData["data"][i]["LGA"]) {
+              for (var j = 0; j < vData["data"][i]["WARDS"].length; j++) {
+                var unitsTotal = 0;
+                if (wardVal === vData["data"][i]["WARDS"][j]["WARD"]) {
+                  vData["data"][i]["WARDS"][j]["PUs"].forEach(
+                    //SUMMING OF PU TOTALS
+                    (item, idx) => {
+                      if (unitVal === item["UNIT"]) {
+                        unitsTotal += item["TOTAL_V_COUNT"][val];
+                      }
+                    }
+                  );
+                  wardsTotal += unitsTotal;
+                }
+              }
+              partyTotal += wardsTotal;
             }
-          );
-          wardsTotal += unitsTotal;
+          }
+          totalArray.push(partyTotal);
+          // console.log(val, "LGA TOTAL:", partyTotal);
+          return;
+        } else if (wardVal) {
+          // For if ward filter is selected
+
+          for (var i = 0; i < vData["data"]?.length; i++) {
+            var wardsTotal = 0;
+            if (lgaVal === vData["data"][i]["LGA"]) {
+              for (var j = 0; j < vData["data"][i]["WARDS"].length; j++) {
+                var unitsTotal = 0;
+                if (wardVal === vData["data"][i]["WARDS"][j]["WARD"]) {
+                  vData["data"][i]["WARDS"][j]["PUs"].forEach(
+                    //SUMMING OF PU TOTALS
+                    (item, idx) => {
+                      unitsTotal += item["TOTAL_V_COUNT"][val];
+                    }
+                  );
+                  wardsTotal += unitsTotal;
+                }
+              }
+              partyTotal += wardsTotal;
+            }
+          }
+          totalArray.push(partyTotal);
+          // console.log(val, "LGA TOTAL:", partyTotal);
+          return;
+        } else if (lgaVal) {
+          for (var i = 0; i < vData["data"]?.length; i++) {
+            var wardsTotal = 0;
+            if (lgaVal === vData["data"][i]["LGA"]) {
+              for (var j = 0; j < vData["data"][i]["WARDS"].length; j++) {
+                //WARD LOOP
+                // console.log(vData["data"][i]["WARDS"][j]["PUs"]);
+                var unitsTotal = 0;
+                vData["data"][i]["WARDS"][j]["PUs"].forEach(
+                  //SUMMING OF PU TOTALS
+                  (item, idx) => {
+                    unitsTotal += item["TOTAL_V_COUNT"][val];
+                  }
+                );
+                wardsTotal += unitsTotal;
+              }
+              partyTotal += wardsTotal;
+            }
+          }
+          // console.log(val, "LGA TOTAL:", partyTotal);
+          totalArray.push(partyTotal);
+          return;
         }
-        partyTotal += wardsTotal;
+      } else {
+        for (var i = 0; i < vData["data"]?.length; i++) {
+          var wardsTotal = 0;
+          for (var j = 0; j < vData["data"][i]["WARDS"].length; j++) {
+            //WARD LOOP
+            // console.log(vData["data"][i]["WARDS"][j]["PUs"]);
+            var unitsTotal = 0;
+            vData["data"][i]["WARDS"][j]["PUs"].forEach(
+              //SUMMING OF PU TOTALS
+              (item, idx) => {
+                unitsTotal += item["TOTAL_V_COUNT"][val];
+              }
+            );
+            wardsTotal += unitsTotal;
+          }
+          partyTotal += wardsTotal;
+        }
+        // console.log(val, "LGA TOTAL:", partyTotal);
+        totalArray.push(partyTotal);
       }
-      // console.log(val, "LGA TOTAL:", partyTotal);
-      totalArray.push(partyTotal);
     });
 
-    for (var i = 0; i < vData["data"].length; i++) {
-      var totalVoteCast1 = 0;
-      var invalidVotes1 = 0;
-      for (var j = 0; j < vData["data"][i]["WARDS"].length; j++) {
-        var totalVoteCast2 = 0;
-        var invalidVotes2 = 0;
-        vData["data"][i]["WARDS"][j]["PUs"].forEach((item, idx) => {
-          totalVoteCast2 += item["TOTAL_CAST"];
-          invalidVotes2 += item["INVALID_VOTES"];
-        });
-        totalVoteCast1 += totalVoteCast2;
-        invalidVotes1 += invalidVotes2;
+    // Filter for invalid and total cast
+    if (filter) {
+      if (unitVal) {
+        for (var i = 0; i < vData["data"]?.length; i++) {
+          var totalVoteCast1 = 0;
+          var invalidVotes1 = 0;
+          if (lgaVal === vData["data"][i]["LGA"]) {
+            for (var j = 0; j < vData["data"][i]["WARDS"].length; j++) {
+              var totalVoteCast2 = 0;
+              var invalidVotes2 = 0;
+              if (wardVal === vData["data"][i]["WARDS"][j]["WARD"]) {
+                vData["data"][i]["WARDS"][j]["PUs"].forEach((item, idx) => {
+                  if (unitVal === item["UNIT"]) {
+                    totalVoteCast2 += item["TOTAL_CAST"];
+                    invalidVotes2 += item["INVALID_VOTES"];
+                  }
+                });
+                totalVoteCast1 += totalVoteCast2;
+                invalidVotes1 += invalidVotes2;
+              }
+            }
+            totalVoteCast += totalVoteCast1;
+            invalidVotes += invalidVotes1;
+          }
+        }
+      } else if (wardVal) {
+        for (var i = 0; i < vData["data"]?.length; i++) {
+          var totalVoteCast1 = 0;
+          var invalidVotes1 = 0;
+          if (lgaVal === vData["data"][i]["LGA"]) {
+            for (var j = 0; j < vData["data"][i]["WARDS"].length; j++) {
+              var totalVoteCast2 = 0;
+              var invalidVotes2 = 0;
+              if (wardVal === vData["data"][i]["WARDS"][j]["WARD"]) {
+                vData["data"][i]["WARDS"][j]["PUs"].forEach((item, idx) => {
+                  totalVoteCast2 += item["TOTAL_CAST"];
+                  invalidVotes2 += item["INVALID_VOTES"];
+                });
+                totalVoteCast1 += totalVoteCast2;
+                invalidVotes1 += invalidVotes2;
+              }
+            }
+            totalVoteCast += totalVoteCast1;
+            invalidVotes += invalidVotes1;
+          }
+        }
+      } else if (lgaVal) {
+        for (var i = 0; i < vData["data"]?.length; i++) {
+          var totalVoteCast1 = 0;
+          var invalidVotes1 = 0;
+          if (lgaVal === vData["data"][i]["LGA"]) {
+            for (var j = 0; j < vData["data"][i]["WARDS"].length; j++) {
+              var totalVoteCast2 = 0;
+              var invalidVotes2 = 0;
+
+              vData["data"][i]["WARDS"][j]["PUs"].forEach((item, idx) => {
+                totalVoteCast2 += item["TOTAL_CAST"];
+                invalidVotes2 += item["INVALID_VOTES"];
+              });
+              totalVoteCast1 += totalVoteCast2;
+              invalidVotes1 += invalidVotes2;
+            }
+            totalVoteCast += totalVoteCast1;
+            invalidVotes += invalidVotes1;
+          }
+        }
       }
-      totalVoteCast += totalVoteCast1;
-      invalidVotes += invalidVotes1;
+    } else {
+      for (var i = 0; i < vData["data"]?.length; i++) {
+        var totalVoteCast1 = 0;
+        var invalidVotes1 = 0;
+        for (var j = 0; j < vData["data"][i]["WARDS"].length; j++) {
+          var totalVoteCast2 = 0;
+          var invalidVotes2 = 0;
+          vData["data"][i]["WARDS"][j]["PUs"].forEach((item, idx) => {
+            totalVoteCast2 += item["TOTAL_CAST"];
+            invalidVotes2 += item["INVALID_VOTES"];
+          });
+          totalVoteCast1 += totalVoteCast2;
+          invalidVotes1 += invalidVotes2;
+        }
+        totalVoteCast += totalVoteCast1;
+        invalidVotes += invalidVotes1;
+      }
     }
 
     setLoading(false);
-    if (totalVoteCast === totalCast || invalidVotes === invalid) return;
+    if (totalVoteCast === totalCast && invalidVotes === invalid) return;
     setTotalVotes(totalArray);
     setTotalCast(totalVoteCast);
     setInvalid(invalidVotes);
   };
 
-  const filterByChange = (e) => setFilterBy(e.target.value);
   // handle polling data parsing
 
   useEffect(async () => {
     // after load data
     data ? await setUpData(data) : error;
     return () => {};
-  }, [totalVotes, data]);
+  }, [totalVotes, data, lgaVal, wardVal, unitVal]);
 
   return (
     <Row gutter={[16, 16]} style={{ width: "100%", margin: 0, padding: 0 }}>
@@ -153,72 +295,90 @@ function Votes() {
           Change Data again
         </Button> */}
       </Col>
-      <Col xs={{ span: 24 }} lg={{ span: 6 }}>
+      <Col xs={{ span: 24 }} lg={{ span: 12 }}>
         <h1>
-          Filter by:{" "}
-          <Switch size="small" onChange={(checked) => setFilter(checked)} />
+          Filter:{" "}
+          <Switch
+            size="small"
+            onChange={(checked) => {
+              setFilter(checked);
+              if (!checked) {
+                setLGAVal(null);
+                setWARDVal(null);
+                setUNITVal(null);
+              }
+            }}
+          />
         </h1>
-        <Radio.Group
-          options={radioOptions}
+        <br />
+        <Select
           disabled={!filter}
-          onChange={filterByChange}
-          value={filterBy}
-          size="small"
-          optionType="button"
-        />
-      </Col>
-      <Col xs={{ span: 24 }} lg={{ span: 6 }}>
-        <h1>Select {filterBy.toUpperCase()}:</h1>
-        {filterBy == "unit" ? (
-          <>
-            <Select
-              disabled={!filter}
-              defaultActiveFirstOption
-              defaultValue="Test"
-            >
-              <Option value="Test">Test</Option>
-            </Select>
-            <Select
-              disabled={!filter}
-              defaultActiveFirstOption
-              defaultValue="Test"
-            >
-              <Option value="Test">Test</Option>
-            </Select>
-            <Select
-              disabled={!filter}
-              defaultActiveFirstOption
-              defaultValue="Test"
-            >
-              <Option value="Test">Test</Option>
-            </Select>
-          </>
-        ) : filterBy == "ward" ? (
-          <>
-            <Select
-              disabled={!filter}
-              defaultActiveFirstOption
-              defaultValue="Test"
-            >
-              <Option value="Test">Test</Option>
-            </Select>
-            <Select
-              disabled={!filter}
-              defaultActiveFirstOption
-              defaultValue="Test"
-            >
-              <Option value="Test">Test</Option>
-            </Select>
-          </>
-        ) : (
-          <Select
-            disabled={!filter}
-            defaultActiveFirstOption
-            defaultValue="Test"
-          >
-            <Option value="Test">Test</Option>
-          </Select>
-        )}
+          defaultActiveFirstOption
+          // defaultValue={_lgaList[0]}
+          placeholder="CHOOSE LGA"
+          value={lgaVal}
+          onChange={(value) => {
+            setLGAVal(value);
+            setWARDVal(null);
+            setUNITVal(null);
+
+            pdata.forEach((item) => {
+              if (item.LGA === value) {
+                _setWardList(item.WARDS.map((e) => e.WARD));
+              }
+            });
+          }}
+          style={{ minWidth: 230 }}
+        >
+          {_lgaList?.map((lga) => (
+            <Option key={lga} value={lga}>
+              {lga}
+            </Option>
+          ))}
+        </Select>
+        <Select
+          disabled={!filter}
+          defaultActiveFirstOption
+          value={wardVal}
+          // defaultValue={_wardList[0]}
+          placeholder="CHOOSE WARD"
+          onChange={(value) => {
+            setWARDVal(value);
+            setUNITVal(null);
+
+            pdata.forEach((item) => {
+              if (item.LGA === lgaVal) {
+                item.WARDS.forEach((e) => {
+                  if (e.WARD === value) {
+                    _setPollingList(e.PUs.map((e) => e));
+                  }
+                });
+              }
+            });
+          }}
+          style={{ minWidth: 230 }}
+        >
+          {_wardList?.map((ward) => (
+            <Option key={ward} value={ward}>
+              {ward}
+            </Option>
+          ))}
+        </Select>
+        <Select
+          disabled={!filter}
+          defaultActiveFirstOption
+          value={unitVal}
+          // defaultValue={_pollingList[0]}
+          placeholder="CHOOSE UNIT"
+          onChange={(value) => setUNITVal(value)}
+          style={{ minWidth: 230 }}
+        >
+          {_pollingList?.map((unit) => (
+            <Option key={unit} value={unit}>
+              {unit}
+            </Option>
+          ))}
+        </Select>
       </Col>
       <Col xs={{ span: 24 }} lg={{ span: 24 }}>
         <Tabs defaultActiveKey="1" onChange={(key) => console.log(key)}>
@@ -229,10 +389,20 @@ function Votes() {
             >
               {loading == false ? (
                 parties.map((party, i) => (
-                  <Col xs={{ span: 24 }} lg={{ span: 8 }}>
+                  <Col key={party} xs={{ span: 24 }} lg={{ span: 8 }}>
                     <Card>
                       <Statistic
-                        title={"TOTAL " + party + " VOTES"}
+                        title={
+                          <>
+                            <span>TOTAL {party} VOTES</span>
+                            <br />
+                            <span>
+                              {lgaVal ? lgaVal : null}{" "}
+                              {wardVal ? ` - ${wardVal}` : null}{" "}
+                              {unitVal ? ` - ${unitVal}` : null}
+                            </span>
+                          </>
+                        }
                         value={totalVotes[i]}
                       />
                     </Card>
